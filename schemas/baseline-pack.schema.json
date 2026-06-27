@@ -1,0 +1,195 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/berlinguyinca/autospec-baselines/main/schemas/baseline-pack.schema.json",
+  "title": "Autospec Baseline Pack",
+  "description": "Documentation-first contract for reusable Autospec baseline packs. This schema defines metadata and expectation structure only; it does not implement Autospec engine logic.",
+  "type": "object",
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "category": {
+            "const": "application"
+          }
+        },
+        "required": ["category"]
+      },
+      "then": {
+        "properties": {
+          "id": {
+            "pattern": "^application/[a-z0-9]+(?:-[a-z0-9]+)*$"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "category": {
+            "const": "technology"
+          }
+        },
+        "required": ["category"]
+      },
+      "then": {
+        "properties": {
+          "id": {
+            "pattern": "^technology/[a-z0-9]+(?:-[a-z0-9]+)*$"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "category": {
+            "const": "testing"
+          }
+        },
+        "required": ["category"]
+      },
+      "then": {
+        "properties": {
+          "id": {
+            "pattern": "^testing/[a-z0-9]+(?:-[a-z0-9]+)*$"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "category": {
+            "const": "ai"
+          }
+        },
+        "required": ["category"]
+      },
+      "then": {
+        "properties": {
+          "id": {
+            "pattern": "^ai/[a-z0-9]+(?:-[a-z0-9]+)*$"
+          }
+        }
+      }
+    }
+  ],
+  "required": [
+    "id",
+    "name",
+    "category",
+    "purpose",
+    "whenToApply",
+    "requiredCapabilities",
+    "recommendedCapabilities",
+    "metadataRequirements",
+    "qualityGates",
+    "testingExpectations",
+    "documentationExpectations",
+    "implementationIssueTemplates"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^(application|technology|testing|ai)/[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "category": {
+      "type": "string",
+      "enum": ["application", "technology", "testing", "ai"]
+    },
+    "version": {
+      "type": "string",
+      "description": "Optional semantic version for published pack metadata.",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(?:[-+][A-Za-z0-9.-]+)?$"
+    },
+    "purpose": {
+      "$ref": "#/$defs/nonEmptyMarkdown"
+    },
+    "whenToApply": {
+      "$ref": "#/$defs/nonEmptyList"
+    },
+    "requiredCapabilities": {
+      "$ref": "#/$defs/nonEmptyList"
+    },
+    "recommendedCapabilities": {
+      "$ref": "#/$defs/stringList"
+    },
+    "metadataRequirements": {
+      "$ref": "#/$defs/nonEmptyList"
+    },
+    "qualityGates": {
+      "$ref": "#/$defs/nonEmptyList"
+    },
+    "testingExpectations": {
+      "$ref": "#/$defs/nonEmptyList"
+    },
+    "documentationExpectations": {
+      "$ref": "#/$defs/nonEmptyList"
+    },
+    "uiUxExpectations": {
+      "$ref": "#/$defs/stringList"
+    },
+    "aiAssistantExpectations": {
+      "$ref": "#/$defs/stringList"
+    },
+    "implementationIssueTemplates": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "description", "template"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1
+          },
+          "template": {
+            "$ref": "#/$defs/nonEmptyMarkdown"
+          }
+        }
+      }
+    },
+    "extends": {
+      "$ref": "#/$defs/stringList"
+    },
+    "conflictsWith": {
+      "$ref": "#/$defs/stringList"
+    },
+    "constitutionReferences": {
+      "$ref": "#/$defs/stringList"
+    }
+  },
+  "$defs": {
+    "nonEmptyMarkdown": {
+      "type": "string",
+      "minLength": 1
+    },
+    "stringList": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "nonEmptyList": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    }
+  }
+}
