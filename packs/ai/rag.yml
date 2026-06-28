@@ -1,0 +1,37 @@
+id: ai/rag
+title: RAG Baseline
+version: 0.1.0
+type: ai
+summary: Retrieval-augmented generation baseline for chunks, embeddings, index refresh, provenance, permissions, fallback, and tests.
+applies_when: {application_types: [], technologies: [], profiles: [ai-platform]}
+inherits: []
+requires: []
+conflicts_with: []
+capabilities:
+  required: [chunking strategy, embedding configuration, index refresh, source metadata, citations, permission filtering, no-context fallback, retrieval tests]
+  recommended: [retrieval evaluation set]
+metadata_required: [ai-capabilities, docs-coverage-map]
+rules:
+  - id: baseline.rag.citations.required
+    rule_id: baseline.rag.citations.required
+    title: RAG answers cite sources
+    summary: Retrieval answers should preserve source metadata and cite retrieved context.
+    source: {baseline: ai/rag, document: docs/ai/rag.md, section: Required Capabilities}
+    category: rag
+    severity: required
+    maturity: {level: production}
+    applies_when: {application_types: [], profiles: [ai-platform], technologies: [], repo_conditions: [rag_enabled]}
+    check: {type: required_ai_capability, expected: {id: rag-citations}}
+    evidence_required: [source metadata and citation behavior]
+    acceptance_criteria: [RAG responses can identify source documents.]
+    metadata_required: [ai-capabilities]
+    quality_gates: [No-context fallback is explicit.]
+    remediation: {hint: Add citation/source metadata to RAG behavior., suggested_issue_title: "feat: add RAG citations and no-context fallback", suggested_labels: [autospec:ai, autospec:rag]}
+    risk: {level: medium, requires_human_review: true, requires_architecture_review: false}
+quality_gates:
+  - Retrieval tests cover answerable and no-context cases.
+  - Permission filtering is documented when user data is present.
+issue_templates:
+  - id: add-rag-citations
+    title: Add RAG citations and source metadata
+    labels: [autospec:rag]

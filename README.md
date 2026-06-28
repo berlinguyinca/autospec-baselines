@@ -70,6 +70,16 @@ Every baseline pack defines:
 
 The schemas are contracts for pack authors and downstream tools. They are not an engine implementation.
 
+## Structured Packs
+
+Machine-readable pack metadata lives under [`packs/`](packs/) and is indexed by:
+
+- [`manifests/baselines.yml`](manifests/baselines.yml)
+- [`manifests/profiles.yml`](manifests/profiles.yml)
+- [`manifests/pack-categories.yml`](manifests/pack-categories.yml)
+
+Authoring guidance lives in [`docs/structured-baseline-authoring.md`](docs/structured-baseline-authoring.md).
+
 ## Composition Model
 
 Baseline packs are meant to be layered. A web AI product might compose:

@@ -1,0 +1,37 @@
+id: technology/postgres
+title: Postgres Baseline
+version: 0.1.0
+type: technology
+summary: Postgres schema, migration, query, backup/export, and index-awareness conventions.
+applies_when: {application_types: [], technologies: [postgres], profiles: []}
+inherits: []
+requires: []
+conflicts_with: []
+capabilities:
+  required: [migration discipline, schema documentation, query safety, backup/export considerations, performance/index awareness]
+  recommended: [explain-plan evidence for expensive reports]
+metadata_required: [data-surface, repository-inventory]
+rules:
+  - id: baseline.postgres.migration_discipline.required
+    rule_id: baseline.postgres.migration_discipline.required
+    title: Postgres migrations are disciplined
+    summary: Schema changes require migration files, review posture, and rollback/backup awareness.
+    source: {baseline: technology/postgres, document: docs/technology/postgres.md, section: Quality Gates}
+    category: data
+    severity: required
+    maturity: {level: production}
+    applies_when: {application_types: [], profiles: [], technologies: [postgres], repo_conditions: []}
+    check: {type: required_metadata, expected: {metadata: data-surface}}
+    evidence_required: [migration directory or schema docs]
+    acceptance_criteria: [Schema evolution path is documented.]
+    metadata_required: [data-surface]
+    quality_gates: [No migration proceeds without validation and rollback consideration.]
+    remediation: {hint: Add schema/migration metadata and validation expectations., suggested_issue_title: "docs: document Postgres migration discipline", suggested_labels: [autospec:data]}
+    risk: {level: high, requires_human_review: true, requires_architecture_review: true}
+quality_gates:
+  - Migrations include review and rollback context.
+  - Query-sensitive reports consider performance/indexing.
+issue_templates:
+  - id: document-postgres-schema
+    title: Document Postgres schema and migrations
+    labels: [autospec:data]

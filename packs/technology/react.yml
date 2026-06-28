@@ -1,0 +1,37 @@
+id: technology/react
+title: React Baseline
+version: 0.1.0
+type: technology
+summary: React application conventions for components, tokens, accessibility, state, and tests.
+applies_when: {application_types: [web], technologies: [react], profiles: [web]}
+inherits: []
+requires: []
+conflicts_with: []
+capabilities:
+  required: [component reuse, design tokens, responsive layout, accessibility, state management consistency, component/unit/e2e testing]
+  recommended: [Storybook for larger apps]
+metadata_required: [ui-surface, technology-registry, test-coverage-map]
+rules:
+  - id: baseline.react.design_tokens.required
+    rule_id: baseline.react.design_tokens.required
+    title: React apps use design tokens
+    summary: React UI should centralize tokens rather than scattering one-off styling.
+    source: {baseline: technology/react, document: docs/technology/react.md, section: Required Capabilities}
+    category: ui
+    severity: required
+    maturity: {level: production}
+    applies_when: {application_types: [web], profiles: [web], technologies: [react], repo_conditions: []}
+    check: {type: required_file, expected: {paths: [tokens, theme, design-system]}}
+    evidence_required: [token/theme/design-system file]
+    acceptance_criteria: [Reusable UI styling tokens are discoverable.]
+    metadata_required: [ui-surface]
+    quality_gates: [New components reuse existing tokens.]
+    remediation: {hint: Add or document React design tokens., suggested_issue_title: "feat: add React design tokens", suggested_labels: [autospec:ui, autospec:react]}
+    risk: {level: medium, requires_human_review: true, requires_architecture_review: false}
+quality_gates:
+  - Components reuse existing UI primitives before adding new ones.
+  - Accessibility and responsive behavior have test evidence.
+issue_templates:
+  - id: standardize-react-ui
+    title: Standardize React UI primitives
+    labels: [autospec:react, autospec:ui]

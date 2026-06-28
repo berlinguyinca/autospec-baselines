@@ -1,0 +1,37 @@
+id: ai/openai-compatible
+title: OpenAI-Compatible API Baseline
+version: 0.1.0
+type: ai
+summary: Hosted or compatible model endpoint baseline for base URL, key references, models, streaming, errors, and usage.
+applies_when: {application_types: [], technologies: [], profiles: [ai-platform]}
+inherits: []
+requires: []
+conflicts_with: []
+capabilities:
+  required: [base URL configuration, API key secret reference, model selection, error handling, usage tracking]
+  recommended: [streaming support where useful]
+metadata_required: [ai-capabilities, settings-registry]
+rules:
+  - id: baseline.openai_compatible.secret_reference.required
+    rule_id: baseline.openai_compatible.secret_reference.required
+    title: OpenAI-compatible key is a secret reference
+    summary: Compatible API integrations must store only secret references, not key values.
+    source: {baseline: ai/openai-compatible, document: docs/ai/openai-compatible.md, section: Required Capabilities}
+    category: security
+    severity: required
+    maturity: {level: production}
+    applies_when: {application_types: [], profiles: [ai-platform], technologies: [], repo_conditions: [ai_enabled]}
+    check: {type: required_setting, expected: {keywords: [OPENAI_API_KEY, secret, base_url]}}
+    evidence_required: [settings registry secret reference]
+    acceptance_criteria: [API key is represented as a secret reference only.]
+    metadata_required: [settings-registry]
+    quality_gates: [No secret values appear in docs or metadata.]
+    remediation: {hint: Document compatible API base URL, model, and secret-reference settings., suggested_issue_title: "chore: document OpenAI-compatible settings", suggested_labels: [autospec:ai, autospec:security]}
+    risk: {level: medium, requires_human_review: true, requires_architecture_review: false}
+quality_gates:
+  - Error handling is actionable.
+  - Usage tracking is documented where multi-user.
+issue_templates:
+  - id: add-compatible-ai-settings
+    title: Add OpenAI-compatible provider settings
+    labels: [autospec:ai]
