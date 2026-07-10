@@ -29,6 +29,8 @@ Application packs:
 - [Analytics](docs/application/analytics.md)
 - [Scientific](docs/application/scientific.md)
 - [Internal Tool](docs/application/internal-tool.md)
+- [Financial Integrity](docs/application/financial.md)
+- [Data Science & ML](docs/application/data-science.md)
 
 Technology packs:
 
@@ -46,6 +48,14 @@ AI packs:
 - [Ollama](docs/ai/ollama.md)
 - [OpenAI-Compatible APIs](docs/ai/openai-compatible.md)
 - [MCP](docs/ai/mcp.md)
+
+Cross-cutting:
+
+- [The Autospec Quality Method](docs/method/AUTOSPEC-QUALITY-METHOD.md) — the domain-independent
+  vocabulary / rules / gate-registry / evaluate-refine / seam engine every pack composes.
+- [Gate registries without an application pack](docs/rules/) — engineering, product,
+  documentation, security, and operations `*.rules.yaml`, wired here as reusable rules rather
+  than fake application packs.
 
 ## Pack Contract
 

@@ -1,0 +1,52 @@
+{
+  "$description": "ML registry — versioned features, labels, datasets, and models with provenance. The token-layer analog for data science: definitions are referenced, never redefined per notebook.",
+  "version": "0.1.0",
+  "features": [
+    {
+      "name": "account_tenure_days",
+      "version": "1",
+      "dtype": "int",
+      "source": "accounts.created_at",
+      "description": "days since account creation"
+    }
+  ],
+  "labels": [
+    {
+      "name": "churned_30d",
+      "version": "1",
+      "definition": "no active session in the 30 days after the observation date",
+      "dtype": "bool"
+    }
+  ],
+  "datasets": [
+    {
+      "name": "churn_train",
+      "version": "2024-Q4",
+      "uri": "s3://.../churn/2024Q4",
+      "split": "train",
+      "provenance": "snapshot 2025-01-02; excludes accounts <7d old"
+    },
+    {
+      "name": "churn_test",
+      "version": "2024-Q4",
+      "uri": "s3://.../churn/2024Q4-test",
+      "split": "test",
+      "provenance": "time-based holdout, no overlap with train"
+    }
+  ],
+  "models": [
+    {
+      "name": "churn_baseline",
+      "version": "0.1.0",
+      "card": "docs/models/churn_baseline.md",
+      "metrics": {
+        "auc": 0.81,
+        "auc_by_plan": {
+          "free": 0.79,
+          "pro": 0.83
+        }
+      },
+      "incumbent": true
+    }
+  ]
+}

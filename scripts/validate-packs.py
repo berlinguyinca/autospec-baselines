@@ -9,8 +9,9 @@ Checks, for every docs/**/*.pack.json:
      constitution repo (pass --constitution-dir; omitted -> skipped with a note).
 
 Also validates every docs/**/web-assets/**/tokens.json against the vendored
-DTCG schema (schemas/dtcg-format-2025.10.json), and that relative links inside
-pack docs resolve.
+DTCG schema (schemas/dtcg-format-2025.10.json), every docs/**/*.rules.yaml gate
+registry (parses; every rule has an id and a check in auto|judge|vlm|review),
+and that relative links inside pack docs resolve.
 
 Exit 0 = all good; 1 = findings; 2 = environment/usage error.
 """
@@ -105,6 +106,32 @@ def main():
             find(f"{rel}: DTCG violation at {'/'.join(map(str, err.path)) or '<root>'}: {err.message}")
         if not errs:
             print(f"ok: {rel}")
+
+    registries = sorted(glob.glob(os.path.join(REPO, "docs", "**", "*.rules.yaml"),
+                                  recursive=True))
+    if registries:
+        try:
+            import yaml
+        except ImportError:
+            find("*.rules.yaml present but the python 'pyyaml' package is not installed")
+            yaml = None
+        if yaml is not None:
+            for reg_path in registries:
+                rel = os.path.relpath(reg_path, REPO)
+                try:
+                    with open(reg_path) as fh:
+                        reg = yaml.safe_load(fh)
+                except yaml.YAMLError as exc:
+                    find(f"{rel}: invalid YAML: {exc}")
+                    continue
+                rules = (reg or {}).get("rules")
+                if not isinstance(rules, list) or not rules:
+                    find(f"{rel}: no rules[] list")
+                    continue
+                for r in rules:
+                    if not isinstance(r, dict) or not r.get("id") or r.get("check") not in ("auto", "judge", "vlm", "review"):
+                        find(f"{rel}: rule {r.get('id') if isinstance(r, dict) else r!r} needs an id and check in auto|judge|vlm|review")
+                print(f"ok: {rel}")
 
     link_rx = re.compile(r"\]\(([^)#:]+)\)")
     for md_path in sorted(glob.glob(os.path.join(REPO, "docs", "**", "*.md"), recursive=True)):

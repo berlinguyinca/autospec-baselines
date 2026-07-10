@@ -1,0 +1,59 @@
+{
+  "$description": "Chart of accounts / entity / currency — the canonical financial vocabulary. Every posted figure references an account code here; no ad-hoc amounts.",
+  "version": "0.1.0",
+  "entities": [
+    {
+      "id": "US1",
+      "name": "Example Inc.",
+      "functional_currency": "USD"
+    }
+  ],
+  "currencies": [
+    "USD",
+    "EUR"
+  ],
+  "materiality_thresholds": {
+    "US1": {
+      "currency": "USD",
+      "amount": 25000
+    }
+  },
+  "accounts": [
+    {
+      "code": "1000",
+      "name": "Cash",
+      "type": "asset",
+      "normal_balance": "debit"
+    },
+    {
+      "code": "1100",
+      "name": "Accounts Receivable",
+      "type": "asset",
+      "normal_balance": "debit"
+    },
+    {
+      "code": "2000",
+      "name": "Accounts Payable",
+      "type": "liability",
+      "normal_balance": "credit"
+    },
+    {
+      "code": "3000",
+      "name": "Retained Earnings",
+      "type": "equity",
+      "normal_balance": "credit"
+    },
+    {
+      "code": "4000",
+      "name": "Revenue",
+      "type": "revenue",
+      "normal_balance": "credit"
+    },
+    {
+      "code": "5000",
+      "name": "Operating Expense",
+      "type": "expense",
+      "normal_balance": "debit"
+    }
+  ]
+}

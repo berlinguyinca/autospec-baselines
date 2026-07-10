@@ -1,0 +1,68 @@
+# data-science.rules.yaml -- machine-readable gate registry for Data Science & ML
+# check: auto (deterministic, blocks) | judge (independent model critic + rubric) | review (human)
+# severity: blocker | major | minor. doctrine = constitution doctrine this gate composes.
+# rubric = dimensions the independent judge scores (the domain analog of design critique).
+
+version: 0.1.0
+domain: Data Science & ML
+constitution_min_version: 0.5.0
+doctrine_refs:
+- 07-ai-platform-doctrine
+- 05-testing-doctrine
+rubric:
+- no leakage
+- honest evaluation on held-out data
+- fairness across subgroups
+- calibration of probabilities
+- reproducibility
+- intended use & limits stated
+rules:
+- id: ds.no-leakage
+  doctrine: 07-ai-platform-doctrine
+  category: correctness
+  severity: blocker
+  check: auto
+  tool: leakage detector + split-integrity test
+  pass: No train/test leakage; splits documented and enforced.
+- id: ds.heldout-eval
+  doctrine: 07-ai-platform-doctrine
+  category: governance
+  severity: blocker
+  check: auto
+  tool: evaluation on a held-out set the model did not train on
+  pass: The model is judged by an independent harness, not by itself.
+- id: ds.reproducible-metrics
+  doctrine: 07-ai-platform-doctrine
+  category: reproducibility
+  severity: major
+  check: auto
+  tool: re-run from pinned data + seed; compare metrics
+  pass: Reported metrics reproduce from versioned inputs.
+- id: ds.fairness-subgroups
+  doctrine: 07-ai-platform-doctrine
+  category: fairness
+  severity: major
+  check: auto
+  tool: subgroup metric computation
+  pass: Fairness metrics computed across defined subgroups; unexplained disparities block promotion.
+- id: ds.calibration
+  doctrine: 07-ai-platform-doctrine
+  category: honesty
+  severity: major
+  check: auto
+  tool: calibration check on probabilistic outputs
+  pass: Probabilistic outputs are calibrated or the miscalibration is disclosed.
+- id: ds.non-regression
+  doctrine: 07-ai-platform-doctrine
+  category: governance
+  severity: blocker
+  check: auto
+  tool: challenger vs incumbent on all gated metrics
+  pass: A new model regresses no gated metric (slice accuracy, fairness, latency) versus the incumbent.
+- id: ds.model-card
+  doctrine: 07-ai-platform-doctrine
+  category: documentation
+  severity: major
+  check: review
+  tool: model-card presence and completeness
+  pass: A model card states data, metrics, intended use, and limitations.

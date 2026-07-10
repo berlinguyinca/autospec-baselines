@@ -1,0 +1,73 @@
+# analytics.rules.yaml -- machine-readable gate registry for Data Analytics
+# check: auto (deterministic, blocks) | judge (independent model critic + rubric) | review (human)
+# severity: blocker | major | minor. doctrine = constitution doctrine this gate composes.
+# rubric = dimensions the independent judge scores (the domain analog of design critique).
+
+version: 0.1.0
+domain: Data Analytics
+constitution_min_version: 0.5.0
+doctrine_refs:
+- 10-analytics-reporting-visualization
+rubric:
+- answers the question actually asked
+- honest encoding (zero baselines, uncertainty)
+- appropriate method for the data
+- uncertainty and caveats communicated
+- reproducible from the semantic layer
+rules:
+- id: ana.metric-single-definition
+  doctrine: 10-analytics-reporting-visualization
+  category: correctness
+  severity: blocker
+  check: auto
+  tool: assert reported metric references a semantic-layer definition (no ad-hoc SQL metric)
+  pass: Every figure traces to one metric definition; the same metric means one thing everywhere.
+- id: ana.freshness
+  doctrine: 10-analytics-reporting-visualization
+  category: data-quality
+  severity: blocker
+  check: auto
+  tool: freshness assertion vs SLA
+  pass: Stale output is detectable and blocked before users rely on it; dashboards disclose freshness.
+- id: ana.data-quality
+  doctrine: 10-analytics-reporting-visualization
+  category: data-quality
+  severity: major
+  check: auto
+  tool: null-rate, referential integrity, row-count sanity (dbt tests / Great Expectations)
+  pass: Data-quality assertions pass or the run fails loudly.
+- id: ana.reconciliation
+  doctrine: 10-analytics-reporting-visualization
+  category: correctness
+  severity: major
+  check: auto
+  tool: reconcile to source of truth
+  pass: Outputs tie to the source of truth or reconciling items are itemized.
+- id: ana.schema-drift
+  doctrine: 10-analytics-reporting-visualization
+  category: data-quality
+  severity: major
+  check: auto
+  tool: schema-diff on sources
+  pass: Schema changes trigger downstream impact review.
+- id: ana.bars-baseline-zero
+  doctrine: 10-analytics-reporting-visualization
+  category: honesty
+  severity: major
+  check: judge
+  tool: independent critic + axis inspection
+  pass: Bar charts start at zero; axes labeled; no truncation that misleads.
+- id: ana.uncertainty-and-n
+  doctrine: 10-analytics-reporting-visualization
+  category: honesty
+  severity: major
+  check: judge
+  tool: independent critic on the figure
+  pass: Sample size / denominator and uncertainty are shown for estimates; not color-only.
+- id: ana.method-review
+  doctrine: 10-analytics-reporting-visualization
+  category: governance
+  severity: major
+  check: review
+  tool: independent methodology review for consequential findings
+  pass: The analysis answers the question asked; method independently reviewed; not self-certified.

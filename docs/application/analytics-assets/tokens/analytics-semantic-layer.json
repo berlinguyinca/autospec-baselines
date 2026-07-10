@@ -1,0 +1,53 @@
+{
+  "$description": "Analytics semantic layer — the single source of truth for metric meaning. The token-layer analog: every reported figure references a definition here, never ad-hoc SQL.",
+  "version": "0.1.0",
+  "dimensions": [
+    {
+      "name": "date",
+      "grain": "day",
+      "type": "time"
+    },
+    {
+      "name": "region",
+      "type": "categorical"
+    },
+    {
+      "name": "plan",
+      "type": "categorical",
+      "values": [
+        "free",
+        "pro",
+        "team",
+        "enterprise"
+      ]
+    }
+  ],
+  "metrics": [
+    {
+      "name": "active_accounts",
+      "owner": "analytics@example.com",
+      "grain": "day",
+      "unit": "count",
+      "formula": "count(distinct account_id) where last_active_at >= date - 28d",
+      "dimensions": [
+        "date",
+        "region",
+        "plan"
+      ],
+      "caveats": "28-day rolling; excludes internal accounts"
+    },
+    {
+      "name": "gross_revenue",
+      "owner": "finance@example.com",
+      "grain": "day",
+      "unit": "USD",
+      "formula": "sum(invoice.amount) where status='paid'",
+      "dimensions": [
+        "date",
+        "region",
+        "plan"
+      ],
+      "reconciles_to": "application/financial:gross_revenue"
+    }
+  ]
+}

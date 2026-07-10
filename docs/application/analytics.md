@@ -10,48 +10,60 @@ Apply this pack when correctness, freshness, lineage, and interpretability of an
 
 ## Required Capabilities
 
-- Defined metric names, owners, formulas, and grains.
+- A versioned semantic layer: metric names, owners, formulas, grain — every figure traces to a
+  definition (no ad-hoc SQL metrics) (seed:
+  `analytics-assets/tokens/analytics-semantic-layer.json`).
 - Data lineage for sources, transformations, and outputs.
-- Freshness and completeness checks.
+- Freshness, completeness, null-rate, and referential-integrity checks that fail before users
+  rely on stale/broken output.
+- Statistical honesty in outputs: zero-baseline bars, disclosed sample size and denominators,
+  uncertainty on estimates, no color-only encoding.
+- The analysis answers the question actually asked; methodology reviewed independently for
+  consequential findings.
 - Access controls for sensitive or restricted data.
 - Backfill and correction procedures.
 
 ## Recommended Capabilities
 
 - Data contracts between producers and consumers.
-- Anomaly detection for critical metrics.
-- Versioned semantic layer or metric catalog.
-- Dashboard usage and ownership review.
+- Anomaly detection on critical metrics.
 - Reconciliation against source-of-truth systems.
+- Dashboard ownership and usage review.
 
 ## Metadata Requirements
 
+- Metric definitions, owners, and dimensionality.
+- Source systems, refresh cadence, and lineage.
+- Data classification, retention, sampling rules, and known caveats.
 - Dataset owners and consumers.
-- Source systems and refresh cadence.
-- Metric definitions and dimensionality.
-- Data classification and retention policy.
-- Known caveats, exclusions, and sampling rules.
 
 ## Quality Gates
 
-- Critical metrics have explicit definitions and tests.
-- Pipeline failures are detectable before users rely on stale output.
-- Dashboards disclose freshness and scope.
-- Restricted data is not exposed to unauthorized users.
-- Schema changes include downstream impact review.
+- Critical metrics have explicit definitions and tests; the same metric means one thing
+  everywhere.
+- Pipeline failures and staleness are detectable before users rely on output; dashboards
+  disclose freshness and scope.
+- Charts obey statistical honesty (zero-baseline bars, n and uncertainty shown, not color-only)
+  and re-theme with the app.
+- Restricted data is not exposed to unauthorized users; schema changes include downstream impact
+  review.
+- Consequential analyses record their question, method, and an independent methodology review.
 
 ## Testing Expectations
 
 - Unit tests for transformations and metric formulas.
+- Data-quality assertions (freshness, nulls, referential integrity, row-count sanity).
+- Reconciliation tests against source of truth.
+- Regression tests for metric-definition changes.
 - Contract tests for source data expectations.
-- Reconciliation tests for critical aggregates.
 - Permission tests for sensitive datasets and dashboards.
 
 ## Documentation Expectations
 
-- Maintain a metric catalog or equivalent documentation.
+- Publish the metric catalog / semantic layer.
+- Document lineage, caveats, and sampling.
+- Record the question and method behind consequential analyses.
 - Document dashboard purpose, owner, audience, and refresh cadence.
-- Document data caveats plainly enough for non-engineers.
 
 ## UI/UX Expectations
 
@@ -66,25 +78,27 @@ If AI summarizes analytics, it must cite underlying data, preserve caveats, avoi
 
 ## Implementation Issue Templates
 
-### Add Metric Or Dashboard
+### Add Metric or Analysis
 
 ```markdown
 ## Goal
-Describe the decision or workflow this metric supports.
+Describe the metric/analysis and the decision it supports.
 
 ## Baseline Packs
 - application/analytics
 
 ## Required Evidence
-- Metric definition and owner
-- Transformation or query tests
-- Freshness/completeness check
+- Metric definition in the semantic layer
+- Data-quality assertions pass
+- Statistical-honesty check on any chart
 - Permission review
+- Independent methodology review for consequential findings
 
 ## Acceptance Criteria
-- Users can identify formula, grain, and refresh cadence
-- Critical values reconcile with source data
-- Dashboard communicates caveats and filters
+- Metric traces to one definition; users can identify formula, grain, and refresh cadence
+- Freshness/quality gates pass
+- Charts honest and re-theme
+- Method reviewed
 ```
 
 ### Modify Analytical Pipeline
@@ -106,3 +120,13 @@ Describe the source, transformation, or output change.
 - Historical data handling is documented
 - Monitoring covers the changed path
 ```
+
+---
+
+## Gates Registry
+
+Machine-readable in
+[`analytics-assets/rules/analytics.rules.yaml`](analytics-assets/rules/analytics.rules.yaml):
+freshness/quality checks, single-definition metrics, reconciliation, statistical honesty, and
+the independent methodology-review gate. The semantic-layer seed is
+[`analytics-assets/tokens/analytics-semantic-layer.json`](analytics-assets/tokens/analytics-semantic-layer.json).

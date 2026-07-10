@@ -1,0 +1,58 @@
+# security.rules.yaml -- machine-readable gate registry for Security Engineering
+# check: auto (deterministic, blocks) | judge (independent model critic + rubric) | review (human)
+# severity: blocker | major | minor. doctrine = constitution doctrine this gate composes.
+# rubric = dimensions the independent judge scores (the domain analog of design critique).
+
+version: 0.1.0
+domain: Security Engineering
+constitution_min_version: 0.5.0
+doctrine_refs:
+- 11-security-privacy-doctrine
+rubric:
+- threat coverage
+- control adequacy (ASVS)
+- least privilege
+- supply-chain integrity
+rules:
+- id: sec.threat-model
+  doctrine: 11-security-privacy-doctrine
+  category: design
+  severity: major
+  check: review
+  tool: threat model for new trust boundaries / sensitive flows
+  pass: New trust boundaries have a threat model with mitigations.
+- id: sec.asvs-controls
+  doctrine: 11-security-privacy-doctrine
+  category: controls
+  severity: major
+  check: review
+  tool: map change to relevant OWASP ASVS controls
+  pass: Relevant ASVS controls are addressed.
+- id: sec.secrets-scan
+  doctrine: 11-security-privacy-doctrine
+  category: controls
+  severity: blocker
+  check: auto
+  tool: secret scanner on diff and history
+  pass: No secrets committed.
+- id: sec.dependency-scan
+  doctrine: 11-security-privacy-doctrine
+  category: supply-chain
+  severity: major
+  check: auto
+  tool: OSV / audit / Dependabot + SBOM
+  pass: No known-critical dependency vulnerabilities.
+- id: sec.authz-review
+  doctrine: 11-security-privacy-doctrine
+  category: controls
+  severity: major
+  check: review
+  tool: authorization review on new endpoints/actions
+  pass: Access checks enforce least privilege; no broadened access without authority.
+- id: sec.secure-defaults
+  doctrine: 11-security-privacy-doctrine
+  category: controls
+  severity: major
+  check: auto
+  tool: secure-by-default config assertions
+  pass: Defaults are secure (no debug endpoints, safe headers, encrypted transport).

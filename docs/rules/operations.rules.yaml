@@ -1,0 +1,58 @@
+# operations.rules.yaml -- machine-readable gate registry for Operations / SRE
+# check: auto (deterministic, blocks) | judge (independent model critic + rubric) | review (human)
+# severity: blocker | major | minor. doctrine = constitution doctrine this gate composes.
+# rubric = dimensions the independent judge scores (the domain analog of design critique).
+
+version: 0.1.0
+domain: Operations / SRE
+constitution_min_version: 0.5.0
+doctrine_refs:
+- 12-operations-diagnostics-doctrine
+rubric:
+- observability (logs/metrics/traces)
+- recoverability (rollback/runbook)
+- alert signal quality (SLO-based)
+- runbook actionability
+rules:
+- id: ops.slos-defined
+  doctrine: 12-operations-diagnostics-doctrine
+  category: reliability
+  severity: major
+  check: review
+  tool: user-facing services define SLOs / error budgets
+  pass: Services define SLOs; alerts fire on SLO/error-budget burn, not every error.
+- id: ops.structured-logs-correlation
+  doctrine: 12-operations-diagnostics-doctrine
+  category: observability
+  severity: major
+  check: auto
+  tool: assert structured logs with a correlation id threaded end to end
+  pass: Logs are structured and carry a correlation id from client to services.
+- id: ops.telemetry
+  doctrine: 12-operations-diagnostics-doctrine
+  category: observability
+  severity: major
+  check: auto
+  tool: metrics + traces present (OpenTelemetry); RUM for field vitals
+  pass: The three pillars are in place for new services.
+- id: ops.health-and-synthetic
+  doctrine: 12-operations-diagnostics-doctrine
+  category: reliability
+  severity: minor
+  check: auto
+  tool: health checks + synthetic/uptime checks
+  pass: Health and synthetic checks feed a status signal.
+- id: ops.runbook
+  doctrine: 12-operations-diagnostics-doctrine
+  category: recoverability
+  severity: major
+  check: review
+  tool: runbook for new operational procedures / rollback
+  pass: Operational procedures have a runbook with a rollback path.
+- id: ops.postmortem
+  doctrine: 12-operations-diagnostics-doctrine
+  category: learning
+  severity: minor
+  check: review
+  tool: blameless postmortem after incidents feeds the backlog
+  pass: Incidents produce a blameless postmortem that feeds the refinement backlog.
