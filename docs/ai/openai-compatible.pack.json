@@ -9,7 +9,8 @@
   ],
   "extends": [],
   "constitutionReferences": [
-    "07-ai-platform-doctrine"
+    "07-ai-platform-doctrine",
+    "11-security-privacy-doctrine"
   ],
   "requiredCapabilities": [
     "Provider, endpoint, model, and API version metadata.",
