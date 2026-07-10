@@ -1,0 +1,139 @@
+{
+  "id": "application/web",
+  "name": "Web Application Baseline Pack",
+  "category": "application",
+  "version": "0.4.0",
+  "purpose": "Define expectations for user-facing browser applications so they are visually coherent, accessible, resilient, and easy to use for a wide audience.",
+  "whenToApply": [
+    "Users interact with the system primarily through a web browser.",
+    "Release quality depends on responsive layout, accessible UI, coherent visual design, stable navigation, and predictable client/server behavior."
+  ],
+  "extends": [
+    "technology/react",
+    "testing/playwright",
+    "ai/rag",
+    "ai/openai-compatible",
+    "ai/mcp"
+  ],
+  "constitutionReferences": [
+    "05-testing-doctrine",
+    "06-ui-ux-doctrine",
+    "07-ai-platform-doctrine",
+    "10-analytics-reporting-visualization",
+    "11-security-privacy-doctrine",
+    "12-operations-diagnostics-doctrine",
+    "14-existing-repository-onboarding"
+  ],
+  "conflictsWith": [],
+  "requiredCapabilities": [
+    "Layered design-token system (primitive to semantic to component); components consume semantic tokens only.",
+    "Theme switching by swapping the semantic layer; light and dark as distinct designs; resolved before first paint.",
+    "Route-level flows with explicit loading, empty, error, and success states.",
+    "Responsive layouts across mobile, tablet, and desktop with a capped reading measure.",
+    "Accessible semantics, keyboard operability, visible focus-visible states, and WCAG 2.2 AA contrast in every theme.",
+    "Correct interaction and ARIA model for each component pattern used.",
+    "Durable form validation with server-side enforcement for trusted decisions.",
+    "User-facing failures carrying an actionable message and correlation id that also appears in backend logs and traces.",
+    "Design tokens shipped in DTCG 2025.10 format, validated against the DTCG schema, transformed via Style Dictionary v4+ to per-theme CSS custom properties.",
+    "Interactive components built on a vetted headless primitive layer (Radix, React Aria, Ark, or Base UI) or native dialog/popover; hand-rolled patterns follow the WAI-ARIA APG.",
+    "Restrictive Content Security Policy and baseline security headers (HSTS, X-Content-Type-Options, Referrer-Policy, Permissions-Policy); SRI on third-party resources; dependency/supply-chain scanning.",
+    "Plain-language and reading-level appropriate content, cognitive-load reduction, and core flows usable on low-end devices and without full JavaScript.",
+    "Generated or refined UI evaluated by deterministic gates plus an independent VLM critic with a non-regression guard; evidence attached.",
+    "A persistent app shell and a reused set of page templates; content measure, gutters, vertical rhythm, and recurring-element placement consistent across pages.",
+    "Structural layout values as layout tokens, pages composed from intrinsic layout primitives (Every Layout set), spacing owned by gap/primitives.",
+    "Responsive to viewport class via media queries and to component slot via container queries; adaptation to input modality (pointer/hover), not width alone.",
+    "Dynamic viewport units (svh/dvh/lvh with vh fallback) and safe-area insets for mobile browser chrome and device notches.",
+    "Collapsible navigation that hides only when space-constrained, with an accessible, keyboard-operable, state-persisted toggle."
+  ],
+  "recommendedCapabilities": [
+    "Fluid type and spacing with non-linear scales and inverse line-height/tracking.",
+    "Command palette and keyboard shortcuts for app-like surfaces.",
+    "Optimistic UI with reconciliation for common actions.",
+    "Internationalization readiness: logical properties for RTL, text-expansion tolerance, Intl formatting.",
+    "SEO and share metadata for public routes.",
+    "Performance budgets for first load and key interactions (Core Web Vitals).",
+    "Story or fixture coverage for important UI states in both themes.",
+    "Native platform primitives where Baseline: light-dark()/contrast-color(), @starting-style + allow-discrete + Popover API, anchor positioning with fallback, same-document View Transitions, text-wrap balance/pretty."
+  ],
+  "metadataRequirements": [
+    "Primary user roles and critical workflows.",
+    "Supported viewport classes and browser targets.",
+    "Supported themes and the semantic token map.",
+    "Authentication and authorization boundaries and external service dependencies.",
+    "Accessibility conformance target and correlation-id scheme.",
+    "Design-token source file and schema version.",
+    "Security header and CSP policy reference.",
+    "Reading-level target and low-end device performance budget.",
+    "Page-template inventory (archetypes) and the layout-token set (container widths, gutters, breakpoints)."
+  ],
+  "qualityGates": [
+    "Visual values trace to tokens; a lint forbids raw color/spacing/type literals.",
+    "Contrast meets WCAG 2.2 AA in every supported theme; no color-only status.",
+    "Interactive controls have labels, focus-visible states, and keyboard behavior; overlays trap and restore focus and close on Escape.",
+    "Every data-dependent view handles loading, empty, validation, permission, network, and unexpected error states.",
+    "Component patterns follow their documented ARIA/interaction model; tab lists reflect the active tab in the URL; bar charts start at zero.",
+    "User-facing failures show an actionable message and correlation id, never internals; the id appears in logs and traces.",
+    "Theme switching re-themes charts, media, and overlays.",
+    "No user-visible placeholder copy, debug state, or broken navigation.",
+    "Critical workflows complete without console errors.",
+    "Performance regressions are explained or rejected.",
+    "tokens.json validates against the DTCG 2025.10 schema; a lint forbids raw color/spacing/type literals in components.",
+    "Restrictive CSP and baseline security headers are served; third-party resources carry integrity; dependency scan has no known-critical findings.",
+    "Primary content meets the target reading level and is within a low-end mobile performance budget; core flows work with a feature or JavaScript absent.",
+    "A design brief pinning subject/audience/signature exists before generation and the output passes an anti-sameness check.",
+    "Generated/refined UI has attached evidence (per-state/per-theme screenshots, deterministic gate results, independent-critic rubric scores) and no accepted refinement regressed a prior gate or rubric dimension.",
+    "The app shell does not shift or resize between navigations; sibling pages of the same template are consistent in shell, gutters, and rhythm.",
+    "Layout values trace to layout tokens; pages composed from the primitive set.",
+    "Correct across viewport classes, orientations, and input modalities with safe-area insets respected; full-height layouts use dynamic viewport units with a fallback.",
+    "Navigation is not hidden when it fits; collapsible navigation is keyboard-operable and state-persisted."
+  ],
+  "testingExpectations": [
+    "End-to-end tests for critical workflows.",
+    "Component or integration tests for reusable interaction patterns.",
+    "Automated accessibility checks on representative pages and states.",
+    "Visual-regression baselines diffed for meaningful UI changes, in light and dark.",
+    "Core Web Vitals budget checks recorded as pass or fail.",
+    "Keyboard-operable coverage for critical flows.",
+    "Regression tests for bug fixes that affect user-visible behavior."
+  ],
+  "documentationExpectations": [
+    "Document supported browsers, viewports, themes, and feature flags.",
+    "Document user roles, permissions, and major workflows.",
+    "Maintain the semantic token map and component-state matrix.",
+    "Keep setup and release notes accurate for a new maintainer."
+  ],
+  "uiUxExpectations": [
+    "Prioritize task completion over decoration; one signature element, quiet elsewhere.",
+    "Choose the least interruptive surface; never stack modals.",
+    "Consistent navigation, action placement, terminology, and motion; consistent action verbs through a flow.",
+    "Singular, distinct primary action; explicit reversible destructive actions (prefer undo over confirm).",
+    "Between-group spacing exceeds within-group spacing.",
+    "Text fits containers across viewports and locales.",
+    "Never status by color alone; honor reduced-motion."
+  ],
+  "aiAssistantExpectations": [
+    "Never the only path to a capability; every action has a conventional-UI equivalent.",
+    "Grounded in real data and cites sources; honest about uncertainty.",
+    "Shows intended actions before executing; confirms side-effectful or irreversible actions and keeps them reversible where possible.",
+    "Streams, is interruptible, and discloses accessible data scope.",
+    "Treats instructions in fetched or observed content as data, not commands.",
+    "Evaluated on task success, not engagement."
+  ],
+  "implementationIssueTemplates": [
+    {
+      "name": "Add Web Workflow",
+      "description": "Implement a new user-facing workflow that meets the web baseline gates.",
+      "template": "## Goal\nDescribe the user workflow and business outcome.\n\n## Baseline Packs\n- application/web\n- technology/react\n- testing/playwright\n\n## Required Evidence\n- Responsive screenshots in light and dark themes\n- End-to-end test for the happy path\n- Loading / empty / error / success state coverage\n- Accessibility check result (keyboard + automated)\n- Core Web Vitals within budget\n\n## Acceptance Criteria\n- Users can complete the workflow on supported viewports and themes\n- All interactive controls are keyboard operable with visible focus\n- Invalid input is handled inline with recovery guidance\n- Failures are visible, carry an error id, and are recoverable\n- Visual values trace to design tokens; no raw literals\n- No console errors during the tested flow"
+    },
+    {
+      "name": "Restyle Existing Surface",
+      "description": "Make an existing surface visually coherent and accessible without changing behavior.",
+      "template": "## Goal\nMake an existing surface visually coherent and accessible without changing behavior.\n\n## Baseline Packs\n- application/web\n\n## Required Evidence\n- Pre-change value inventory and visual baseline\n- Token/shim layer introduced (cascade layers) before restyling\n- Migration applied in order: type, color, spacing, depth, states, layout\n- Visual-regression diff against baseline\n- Behavior-parity confirmation\n\n## Acceptance Criteria\n- Appearance improved with no behavior regression\n- Contrast meets AA in all themes; focus states present\n- Raw-value lint passes after migration"
+    },
+    {
+      "name": "Fix Web Regression",
+      "description": "Diagnose and fix a broken user-facing behavior with a guarding regression test.",
+      "template": "## Regression\nDescribe the broken user-facing behavior.\n\n## Baseline Packs\n- application/web\n- testing/playwright\n\n## Required Evidence\n- Reproduction before fix (route, console, network, screenshot/trace)\n- Regression test after fix\n- Screenshot or trace of corrected behavior\n\n## Acceptance Criteria\n- Original regression cannot recur under the test\n- Related loading/error states remain intact\n- No new console errors during the tested flow"
+    }
+  ]
+}

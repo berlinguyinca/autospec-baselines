@@ -1,0 +1,333 @@
+# rules.yaml -- machine-readable gate registry (v0.5.0)
+# check: auto (deterministic, blocks) | vlm (independent critic + rubric) | review
+# severity: blocker | major | minor.  section = canonical ruleset section (v0.5.0).
+
+version: 0.5.0
+constitution_min_version: 0.4.0
+rules:
+- id: tokens.no-raw-values
+  section: 2
+  category: tokens
+  severity: blocker
+  check: auto
+  tool: 'stylelint custom rule: forbid raw color/length/duration literals in component styles'
+  pass: No raw color/spacing/type/duration literals in component code; all trace to semantic tokens.
+- id: tokens.dtcg-valid
+  section: 2
+  category: tokens
+  severity: blocker
+  check: auto
+  tool: ajv validate against designtokens.org/schemas/2025.10/format.json
+  pass: tokens.json validates against the DTCG 2025.10 schema.
+- id: tokens.components-avoid-primitives
+  section: 2
+  category: tokens
+  severity: major
+  check: auto
+  tool: 'lint: component styles reference theme.* semantic tokens only, never color.*/space.* primitives'
+  pass: Components consume the semantic tier only.
+- id: a11y.contrast-aa
+  section: 15
+  category: accessibility
+  severity: blocker
+  check: auto
+  tool: axe-core / Playwright axe; contrast computed per theme
+  pass: Text and UI boundaries meet WCAG 2.2 AA in every supported theme.
+- id: a11y.keyboard-operable
+  section: 15
+  category: accessibility
+  severity: blocker
+  check: auto
+  tool: Playwright keyboard traversal; focus-visible assertions
+  pass: All interactive elements reachable and operable by keyboard with visible focus; overlays trap
+    and restore focus and close on Escape.
+- id: a11y.no-color-only-status
+  section: 15
+  category: accessibility
+  severity: major
+  check: vlm
+  tool: 'VLM critique: status also conveyed by icon/text/shape'
+  pass: No status communicated by color alone.
+- id: a11y.axe-clean
+  section: 15
+  category: accessibility
+  severity: blocker
+  check: auto
+  tool: axe-core on representative pages and states
+  pass: No critical or serious axe violations.
+- id: a11y.target-size
+  section: 15
+  category: accessibility
+  severity: minor
+  check: auto
+  tool: computed hit-area check (>=24px; primary touch >=44px)
+  pass: Interactive targets meet minimum size.
+- id: a11y.zoom-200
+  section: 15
+  category: accessibility
+  severity: major
+  check: auto
+  tool: 'Playwright: 200% zoom, assert no content loss or horizontal scroll'
+  pass: Usable at 200% zoom.
+- id: cognitive.reading-level
+  section: 15
+  category: inclusive
+  severity: major
+  check: auto
+  tool: readability metric (automated grade) on body copy
+  pass: Primary content within the target reading level for the audience.
+- id: cognitive.plain-language
+  section: 15
+  category: inclusive
+  severity: minor
+  check: review
+  tool: review against plain-language guidance (GOV.UK style)
+  pass: User-side language; active voice; consistent verbs; no jargon-as-label.
+- id: perf.low-end-budget
+  section: 15
+  category: inclusive
+  severity: major
+  check: auto
+  tool: Lighthouse on throttled CPU/network (mid-tier mobile profile)
+  pass: Usable and within budget on a low-end device profile, not just desktop.
+- id: perf.core-web-vitals
+  section: 33
+  category: performance
+  severity: blocker
+  check: auto
+  tool: 'Lighthouse CI budgets: LCP<2.5s, INP<200ms, CLS<0.1'
+  pass: Core Web Vitals within budget; regressions explained or rejected.
+- id: perf.no-cls-from-media
+  section: 26
+  category: performance
+  severity: major
+  check: auto
+  tool: Lighthouse CLS attribution; assert width/height or aspect-ratio on media
+  pass: Async media reserve space; no layout shift.
+- id: states.container-states
+  section: 16
+  category: components
+  severity: blocker
+  check: auto
+  tool: Storybook/fixtures cover loading/empty/error/success; Playwright asserts each
+  pass: Every data-dependent view handles loading, empty, error, success.
+- id: states.interactive-states
+  section: 16
+  category: components
+  severity: major
+  check: review
+  tool: state matrix review (default/hover/focus-visible/active/disabled/loading/error)
+  pass: Every interactive element defines its full state set.
+- id: patterns.aria-model
+  section: 25
+  category: components
+  severity: major
+  check: auto
+  tool: axe + role/keyboard assertions; prefer headless primitive (Radix/React Aria/Ark/Base UI)
+  pass: Component patterns follow their WAI-ARIA APG interaction and ARIA model.
+- id: patterns.tabs-url
+  section: 23
+  category: components
+  severity: minor
+  check: auto
+  tool: assert active tab reflected in URL
+  pass: Tab state is deep-linkable.
+- id: motion.reduced-motion
+  section: 7
+  category: motion
+  severity: major
+  check: auto
+  tool: assert prefers-reduced-motion path degrades to visible, not hidden
+  pass: Reduced-motion respected and content stays visible.
+- id: motion.compositor-only
+  section: 7
+  category: motion
+  severity: minor
+  check: review
+  tool: 'review: animate transform/opacity only'
+  pass: Animations use compositor-friendly properties.
+- id: viz.bar-baseline-zero
+  section: 27
+  category: dataviz
+  severity: major
+  check: vlm
+  tool: VLM critique + axis inspection
+  pass: Bar charts start at a zero baseline.
+- id: viz.text-alternative
+  section: 27
+  category: dataviz
+  severity: major
+  check: auto
+  tool: assert caption + data table or description for each chart
+  pass: Every chart has a text/table alternative; encoding not color-only.
+- id: viz.retheme
+  section: 27
+  category: dataviz
+  severity: minor
+  check: vlm
+  tool: screenshot chart in dark theme
+  pass: Charts re-theme with the app.
+- id: errors.correlation-id
+  section: 9
+  category: resilience
+  severity: major
+  check: auto
+  tool: assert user-facing failure shows an id that also appears in logs/traces
+  pass: Failures carry a correlation id; internals never leaked.
+- id: errors.boundaries
+  section: 31
+  category: resilience
+  severity: major
+  check: auto
+  tool: 'fault injection: one widget fails, page does not white-screen'
+  pass: Error boundaries isolate failures; branded fallback exists.
+- id: obs.no-pii-in-logs
+  section: 32
+  category: resilience
+  severity: blocker
+  check: auto
+  tool: log scrubber / secret+PII scanner on log output
+  pass: No secrets or PII in logs; retention bounded.
+- id: sec.csp
+  section: 32
+  category: security
+  severity: blocker
+  check: auto
+  tool: 'response header check: Content-Security-Policy present and not unsafe-inline for scripts'
+  pass: A restrictive CSP is served.
+- id: sec.headers
+  section: 32
+  category: security
+  severity: major
+  check: auto
+  tool: 'header scan: HSTS, X-Content-Type-Options, Referrer-Policy, Permissions-Policy'
+  pass: Baseline security headers present.
+- id: sec.sri
+  section: 32
+  category: security
+  severity: minor
+  check: auto
+  tool: assert integrity attributes on third-party script/style tags
+  pass: Subresource Integrity on external resources.
+- id: sec.dependency-scan
+  section: 32
+  category: security
+  severity: major
+  check: auto
+  tool: npm audit / OSV / Dependabot; SBOM
+  pass: No known-critical dependency vulnerabilities; supply chain scanned.
+- id: sec.assistant-injection
+  section: 30
+  category: security
+  severity: blocker
+  check: auto
+  tool: injection-boundary tests for assistants that read untrusted content or act
+  pass: Instructions in fetched/observed content treated as data, not commands.
+- id: ai.never-only-path
+  section: 30
+  category: ai
+  severity: blocker
+  check: review
+  tool: 'review: every assistant-reachable capability has a conventional-UI equivalent'
+  pass: Assistant augments, never gates.
+- id: ai.confirm-irreversible
+  section: 30
+  category: ai
+  severity: blocker
+  check: auto
+  tool: assert side-effectful assistant actions require confirmation and are reversible or clearly irreversible
+  pass: No unconfirmed irreversible assistant actions.
+- id: seo.metadata
+  section: 34
+  category: seo
+  severity: minor
+  check: auto
+  tool: assert unique title, meta description, Open Graph/Twitter tags on public routes
+  pass: Share/SEO metadata present.
+- id: direction.brief-pinned
+  section: 35
+  category: direction
+  severity: major
+  check: review
+  tool: 'artifact: a design brief pinning subject, audience, and signature exists before generation'
+  pass: Direction is chosen, not defaulted.
+- id: direction.not-generic-default
+  section: 35
+  category: direction
+  severity: major
+  check: vlm
+  tool: 'VLM rubric dimension: does this read as a generic AI-default template?'
+  pass: Output does not match the known AI-default looks; the signature is present and singular.
+- id: content.realistic
+  section: 35
+  category: direction
+  severity: minor
+  check: vlm
+  tool: 'VLM/agent check: no lorem ipsum; copy is domain-specific and user-side'
+  pass: Realistic, on-domain content, not placeholder.
+- id: retrofit.non-regressive
+  section: 37
+  category: retrofit
+  severity: blocker
+  check: auto
+  tool: visual-regression + behavior tests against the pre-change baseline
+  pass: Restyle improves appearance with no behavior regression; changes shipped incrementally.
+- id: layout.app-shell-stable
+  section: 13
+  category: layout
+  severity: major
+  check: auto
+  tool: 'visual-diff across sibling pages: shell/nav/footer position and size unchanged'
+  pass: Persistent app shell does not shift or resize between pages; only the content region changes.
+- id: layout.page-templates
+  section: 13
+  category: layout
+  severity: major
+  check: review
+  tool: 'review: each page maps to a named archetype (list/detail/form/settings/dashboard/empty)'
+  pass: Pages reuse a small set of templates; placement, measure, gutters, and rhythm consistent app-wide.
+- id: layout.tokens-traced
+  section: 4
+  category: layout
+  severity: major
+  check: auto
+  tool: 'lint: container widths, gutters, sidebar/rail widths, breakpoints reference layout tokens'
+  pass: Structural layout values trace to layout tokens; spacing owned by gap/primitives.
+- id: responsive.viewport-classes
+  section: 14
+  category: responsive
+  severity: blocker
+  check: auto
+  tool: Playwright across handset/tablet/laptop/ultrawide, both orientations
+  pass: Usable and correct across viewport classes and orientations; no horizontal scroll or clipped content.
+- id: responsive.input-modality
+  section: 14
+  category: responsive
+  severity: major
+  check: auto
+  tool: emulate pointer:coarse/hover:none; assert larger targets and no hover-only affordances on touch
+  pass: UI adapts to input modality (pointer/hover), not width alone.
+- id: responsive.dvh-safe-area
+  section: 14
+  category: responsive
+  severity: major
+  check: auto
+  tool: assert full-height elements use svh/dvh (+vh fallback); safe-area env() padding on inset-sensitive
+    UI
+  pass: Full-height layouts use dynamic viewport units with fallback; content clears notches/home indicator.
+- id: nav.collapse-when-needed
+  section: 12
+  category: navigation
+  severity: major
+  check: auto
+  tool: assert nav is visible when space allows; collapses to drawer/rail only when constrained
+  pass: Navigation is not hidden behind a toggle when there is room to show it.
+- id: nav.state-persisted
+  section: 12
+  category: navigation
+  severity: minor
+  check: auto
+  tool: assert sidebar/rail collapsed state persists across navigation and sessions; toggle has aria-expanded
+    and keyboard support
+  pass: Collapsible chrome has an accessible, keyboard-operable, state-persisted toggle; drawers meet
+    overlay a11y.
