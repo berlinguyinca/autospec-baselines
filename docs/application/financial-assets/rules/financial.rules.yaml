@@ -1,0 +1,67 @@
+# financial.rules.yaml -- machine-readable gate registry for Financial Integrity
+# check: auto (deterministic, blocks) | judge (independent model critic + rubric) | review (human)
+# severity: blocker | major | minor. doctrine = constitution doctrine this gate composes.
+# rubric = dimensions the independent judge scores (the domain analog of design critique).
+
+version: 0.1.0
+domain: Financial Integrity
+constitution_min_version: 0.5.0
+doctrine_refs:
+- 18-financial-integrity-doctrine
+- 11-security-privacy-doctrine
+rubric:
+- accuracy of figures
+- controls (segregation of duties)
+- auditability of the trail
+- reproducibility of the result
+- disclosure of judgment and caveats
+rules:
+- id: fin.balanced-entries
+  doctrine: 18-financial-integrity-doctrine
+  category: correctness
+  severity: blocker
+  check: auto
+  tool: assert debits==credits per entry; trial balance nets zero
+  pass: The accounting identity holds on every entry.
+- id: fin.reconciliation-tieout
+  doctrine: 18-financial-integrity-doctrine
+  category: correctness
+  severity: blocker
+  check: auto
+  tool: reconcile balances to source of truth
+  pass: Balances tie out or reconciling items are itemized and explained.
+- id: fin.segregation-of-duties
+  doctrine: 18-financial-integrity-doctrine
+  category: governance
+  severity: blocker
+  check: auto
+  tool: assert approver != creator on every posting
+  pass: No figure is approved by the actor that produced it.
+- id: fin.immutable-audit-trail
+  doctrine: 18-financial-integrity-doctrine
+  category: auditability
+  severity: blocker
+  check: auto
+  tool: append-only audit log with who/what/when; tamper check
+  pass: Every posting/adjustment has an immutable, timestamped trail.
+- id: fin.deterministic-recompute
+  doctrine: 18-financial-integrity-doctrine
+  category: reproducibility
+  severity: major
+  check: auto
+  tool: recompute figures from versioned inputs
+  pass: Figures recompute deterministically; restatements are reproducible.
+- id: fin.no-pii-in-trail
+  doctrine: 11-security-privacy-doctrine
+  category: security
+  severity: major
+  check: auto
+  tool: secret/PII scanner on the audit trail
+  pass: The audit trail carries no secrets or PII beyond what the record requires.
+- id: fin.materiality-review
+  doctrine: 18-financial-integrity-doctrine
+  category: governance
+  severity: major
+  check: review
+  tool: human review for amounts above materiality
+  pass: Material amounts carry a human-reviewed rationale; deterministic checks outrank model judgment.

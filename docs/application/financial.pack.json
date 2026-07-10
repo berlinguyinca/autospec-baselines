@@ -1,0 +1,77 @@
+{
+  "id": "application/financial",
+  "name": "Financial Integrity Baseline Pack",
+  "category": "application",
+  "version": "0.1.0",
+  "purpose": "Define expectations for systems that record, calculate, reconcile, or report financial results, so numbers are correct, controlled, auditable, and reproducible.",
+  "whenToApply": [
+    "The system posts, calculates, reconciles, or reports monetary amounts, balances, or financial metrics.",
+    "Correctness, controls, and auditability of financial figures affect decisions, filings, or obligations."
+  ],
+  "extends": [
+    "technology/python",
+    "technology/postgres"
+  ],
+  "constitutionReferences": [
+    "18-financial-integrity-doctrine",
+    "11-security-privacy-doctrine",
+    "12-operations-diagnostics-doctrine",
+    "10-analytics-reporting-visualization"
+  ],
+  "requiredCapabilities": [
+    "A canonical chart of accounts, entity, and currency vocabulary; every figure traces to a defined account/metric (no ad-hoc amounts).",
+    "The accounting identity holds (debits equal credits) and reconciliations tie to a source of truth.",
+    "Segregation of duties: the actor that records or generates a figure is never the actor that approves it.",
+    "An immutable, timestamped audit trail (who/what/when) for every posting and adjustment, distinct from debug logs.",
+    "Deterministic recomputation from inputs; results reproducible from versioned inputs and formulas.",
+    "Materiality and judgment items routed to human review with recorded rationale."
+  ],
+  "recommendedCapabilities": [
+    "Variance analysis against budget/prior period with explained drivers.",
+    "Automated reconciliation with categorized reconciling items.",
+    "Period-close checklist with dependency sequencing.",
+    "Point-in-time restatement/roll-forward support."
+  ],
+  "metadataRequirements": [
+    "Chart of accounts, entities, and currencies.",
+    "Source-of-truth systems and reconciliation mappings.",
+    "Approval matrix (who may approve what) and materiality thresholds.",
+    "Retention and access policy for financial records and audit trail."
+  ],
+  "qualityGates": [
+    "Debits equal credits on every entry; trial balance nets to zero.",
+    "Reconciliations tie out or reconciling items are itemized and explained.",
+    "No posting is approved by its creator (segregation of duties enforced).",
+    "The audit trail is complete, immutable, and free of secrets/PII beyond what the record requires.",
+    "Figures recompute deterministically from versioned inputs; a restatement is reproducible.",
+    "Amounts above materiality carry a human-reviewed rationale."
+  ],
+  "testingExpectations": [
+    "Unit tests for every formula and posting rule with known-answer fixtures.",
+    "Reconciliation tests against source-of-truth snapshots.",
+    "Property tests for identities (balances net to zero; roll-forward continuity).",
+    "Regression tests guarding prior periods against silent change."
+  ],
+  "documentationExpectations": [
+    "Document accounting treatments, formulas, and their sources.",
+    "Document the approval matrix, materiality thresholds, and reconciliation procedures.",
+    "Keep an audit-ready workpaper trail for generated figures."
+  ],
+  "aiAssistantExpectations": [
+    "An assistant may draft entries, analyses, or explanations but must never post, approve, or alter financial records without an independent human approver.",
+    "Deterministic checks outrank model judgment on any figure; the assistant surfaces the check result, not a guess."
+  ],
+  "implementationIssueTemplates": [
+    {
+      "name": "Add Financial Calculation",
+      "description": "Implement a monetary calculation or posting rule under the integrity gates.",
+      "template": "## Goal\nDescribe the figure, its accounts, and the decision it supports.\n\n## Baseline Packs\n- application/financial\n\n## Required Evidence\n- Known-answer unit tests\n- Reconciliation to a source of truth\n- Segregation of duties: creator != approver\n- Deterministic recomputation from versioned inputs\n\n## Acceptance Criteria\n- Debits=credits / balances net to zero\n- Ties to source of truth or reconciling items explained\n- Immutable audit-trail entry created\n- Material amounts carry reviewed rationale"
+    },
+    {
+      "name": "Month-End Reconciliation",
+      "description": "Reconcile an account to its source of truth.",
+      "template": "## Goal\nReconcile <account> to <source>.\n\n## Baseline Packs\n- application/financial\n\n## Required Evidence\n- Tie-out or itemized reconciling items with cause\n- Independent reviewer sign-off\n\n## Acceptance Criteria\n- Balance ties or is fully explained\n- Reconciling items categorized"
+    }
+  ],
+  "conflictsWith": []
+}

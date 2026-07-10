@@ -1,0 +1,89 @@
+# engineering.rules.yaml -- machine-readable gate registry for Software Engineering & Architecture
+# check: auto (deterministic, blocks) | judge (independent model critic + rubric) | review (human)
+# severity: blocker | major | minor. doctrine = constitution doctrine this gate composes.
+# rubric = dimensions the independent judge scores (the domain analog of design critique).
+
+version: 0.1.0
+domain: Software Engineering & Architecture
+constitution_min_version: 0.5.0
+doctrine_refs:
+- 03-architecture-doctrine
+- 04-engineering-doctrine
+- 05-testing-doctrine
+rubric:
+- correctness
+- boundary respect (change stays within its module/service)
+- testability
+- failure handling
+- simplicity (not over-engineered / AI-boilerplate)
+rules:
+- id: eng.types-clean
+  doctrine: 04-engineering
+  category: correctness
+  severity: blocker
+  check: auto
+  tool: static type checker / compiler
+  pass: No type or compile errors.
+- id: eng.tests-pass
+  doctrine: 05-testing
+  category: correctness
+  severity: blocker
+  check: auto
+  tool: full test suite (run serially where side effects exist)
+  pass: All tests pass; suite is deterministic.
+- id: eng.coverage-threshold
+  doctrine: 05-testing
+  category: correctness
+  severity: major
+  check: auto
+  tool: coverage report vs threshold
+  pass: Changed logic is covered to the agreed threshold.
+- id: eng.critical-logic-hardened
+  doctrine: 05-testing
+  category: correctness
+  severity: major
+  check: auto
+  tool: mutation or property-based tests on core logic
+  pass: Critical logic has mutation or property tests, not just examples.
+- id: eng.boundary-respect
+  doctrine: 03-architecture
+  category: architecture
+  severity: major
+  check: review
+  tool: dependency-graph check + reviewer
+  pass: Change respects module/service boundaries; no new cross-boundary dependency without an ADR.
+- id: eng.adr-for-significant
+  doctrine: 03-architecture
+  category: architecture
+  severity: major
+  check: review
+  tool: ADR presence check
+  pass: Significant architectural decisions are recorded in an ADR.
+- id: eng.dependency-rationale
+  doctrine: 04-engineering
+  category: supply-chain
+  severity: major
+  check: review
+  tool: dependency policy review (maintenance, license, security, fit)
+  pass: New dependencies include rationale and alternatives considered.
+- id: eng.small-reversible
+  doctrine: 04-engineering
+  category: process
+  severity: minor
+  check: review
+  tool: diff-size / reviewability heuristic
+  pass: Large changes are split into reviewable, reversible units.
+- id: eng.no-self-approval
+  doctrine: 04-engineering
+  category: governance
+  severity: blocker
+  check: review
+  tool: the actor that generated the change is not its sole approver
+  pass: Generated code is judged by tests plus an independent reviewer/critic, never self-certified.
+- id: eng.non-regression
+  doctrine: 05-testing
+  category: governance
+  severity: blocker
+  check: auto
+  tool: compare all gates to the base revision
+  pass: No gate (tests, coverage, perf, lint) regressed versus base.

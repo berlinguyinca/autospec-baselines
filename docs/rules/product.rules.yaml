@@ -1,0 +1,51 @@
+# product.rules.yaml -- machine-readable gate registry for Product Management
+# check: auto (deterministic, blocks) | judge (independent model critic + rubric) | review (human)
+# severity: blocker | major | minor. doctrine = constitution doctrine this gate composes.
+# rubric = dimensions the independent judge scores (the domain analog of design critique).
+
+version: 0.1.0
+domain: Product Management
+constitution_min_version: 0.5.0
+doctrine_refs:
+- 01-product-doctrine
+rubric:
+- problem clearly stated
+- scope bounded by explicit non-goals
+- acceptance criteria testable
+- success metrics tied to a decision
+rules:
+- id: prod.problem-statement
+  doctrine: 01-product-doctrine
+  category: clarity
+  severity: major
+  check: review
+  tool: spec has a user + problem + intended outcome
+  pass: The spec states who, the problem, and the user-visible outcome.
+- id: prod.non-goals
+  doctrine: 01-product-doctrine
+  category: scope
+  severity: major
+  check: review
+  tool: explicit non-goals present
+  pass: Non-goals are recorded so scope does not creep.
+- id: prod.acceptance-criteria
+  doctrine: 01-product-doctrine
+  category: testability
+  severity: major
+  check: auto
+  tool: each requirement has verifiable acceptance criteria
+  pass: Acceptance criteria are concrete and testable.
+- id: prod.success-metrics
+  doctrine: 01-product-doctrine
+  category: measurement
+  severity: minor
+  check: review
+  tool: significant features define a success metric tied to a decision
+  pass: Metrics are purposeful, not collected by default.
+- id: prod.mission-justified
+  doctrine: 01-product-doctrine
+  category: scope
+  severity: minor
+  check: review
+  tool: feature justified against the product mission
+  pass: The feature justifies itself against the mission.

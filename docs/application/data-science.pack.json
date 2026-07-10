@@ -1,0 +1,73 @@
+{
+  "id": "application/data-science",
+  "name": "Data Science & ML Baseline Pack",
+  "category": "application",
+  "version": "0.1.0",
+  "purpose": "Define expectations for systems built around trained models and experiments, so results are reproducible, honestly evaluated, fair, and governed.",
+  "whenToApply": [
+    "The system trains, evaluates, or serves machine-learning models, or produces results from experiments/statistical inference.",
+    "Decisions depend on model outputs whose reliability, fairness, or reproducibility matters."
+  ],
+  "extends": [
+    "application/scientific",
+    "technology/python",
+    "ai/openai-compatible"
+  ],
+  "constitutionReferences": [
+    "07-ai-platform-doctrine",
+    "10-analytics-reporting-visualization",
+    "05-testing-doctrine",
+    "11-security-privacy-doctrine"
+  ],
+  "requiredCapabilities": [
+    "A versioned registry of features, labels, and datasets with provenance; definitions traced, not ad-hoc.",
+    "Train/validation/test separation with automated leakage detection.",
+    "Held-out evaluation by a fixed harness the model did not train against; the model does not grade itself.",
+    "Reproducibility: pinned data versions, fixed seeds, recorded environment; results re-derivable.",
+    "Fairness/bias metrics across relevant subgroups; calibration reported for probabilistic outputs.",
+    "A model card recording data, metrics, intended use, and limitations; honest about uncertainty."
+  ],
+  "recommendedCapabilities": [
+    "Drift and performance monitoring in production with alerting.",
+    "Baseline/challenger comparison with a non-regression gate before promotion.",
+    "Experiment tracking with parameters and artifacts.",
+    "Notebook-to-pipeline promotion path."
+  ],
+  "metadataRequirements": [
+    "Feature/label/dataset registry with versions and provenance.",
+    "Evaluation harness, metrics, and thresholds.",
+    "Subgroup definitions for fairness analysis.",
+    "Model registry with cards and lineage."
+  ],
+  "qualityGates": [
+    "No train/test leakage; splits documented and enforced.",
+    "Evaluation uses a held-out set the model did not see; reported metrics reproduce from pinned inputs.",
+    "Fairness metrics computed across defined subgroups; unexplained disparities block promotion.",
+    "Probabilistic outputs are calibrated or the miscalibration is disclosed.",
+    "A new model does not regress any gated metric (slice accuracy, fairness, latency) versus the incumbent.",
+    "A model card exists and states intended use, data, metrics, and limitations."
+  ],
+  "testingExpectations": [
+    "Deterministic reproduction test from versioned inputs and seed.",
+    "Leakage checks and split-integrity tests.",
+    "Subgroup and calibration evaluation in the harness.",
+    "Non-regression comparison against the incumbent before promotion."
+  ],
+  "documentationExpectations": [
+    "Publish a model card per released model.",
+    "Document data provenance, assumptions, and known failure modes.",
+    "Document the evaluation harness and thresholds."
+  ],
+  "aiAssistantExpectations": [
+    "Assistants and generated analysis cite data and are honest about uncertainty.",
+    "No model self-certifies: promotion requires the independent harness and the non-regression gate."
+  ],
+  "implementationIssueTemplates": [
+    {
+      "name": "Train/Evaluate Model",
+      "description": "Train and evaluate a model under the governance gates.",
+      "template": "## Goal\nDescribe the prediction task and the decision it supports.\n\n## Baseline Packs\n- application/data-science\n\n## Required Evidence\n- Leakage check + documented splits\n- Held-out metrics reproduced from pinned inputs\n- Subgroup fairness + calibration report\n- Non-regression vs incumbent\n- Model card\n\n## Acceptance Criteria\n- No leakage; reproducible metrics\n- No unexplained subgroup disparity\n- No regression on gated metrics\n- Model card complete"
+    }
+  ],
+  "conflictsWith": []
+}

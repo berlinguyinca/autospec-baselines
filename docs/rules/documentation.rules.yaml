@@ -1,0 +1,51 @@
+# documentation.rules.yaml -- machine-readable gate registry for Documentation & Technical Writing
+# check: auto (deterministic, blocks) | judge (independent model critic + rubric) | review (human)
+# severity: blocker | major | minor. doctrine = constitution doctrine this gate composes.
+# rubric = dimensions the independent judge scores (the domain analog of design critique).
+
+version: 0.1.0
+domain: Documentation & Technical Writing
+constitution_min_version: 0.5.0
+doctrine_refs:
+- 09-documentation-doctrine
+rubric:
+- accuracy against current behavior
+- completeness for the audience
+- runnability of examples
+- findability (RAG-ready structure)
+rules:
+- id: doc.behavior-change-documented
+  doctrine: 09-documentation-doctrine
+  category: accuracy
+  severity: major
+  check: auto
+  tool: assert user-facing behavior changes update docs
+  pass: Behavior changes update user or maintainer docs in the same change.
+- id: doc.examples-tested
+  doctrine: 09-documentation-doctrine
+  category: accuracy
+  severity: major
+  check: auto
+  tool: execute code examples in docs
+  pass: Documented examples run and produce the stated output.
+- id: doc.links-valid
+  doctrine: 09-documentation-doctrine
+  category: accuracy
+  severity: minor
+  check: auto
+  tool: link checker
+  pass: Documentation links resolve.
+- id: doc.rag-ready
+  doctrine: 09-documentation-doctrine
+  category: findability
+  severity: minor
+  check: review
+  tool: headings unambiguous; acronyms expanded; stable anchors
+  pass: 'Docs are RAG-ready: clear headings, no unexplained acronyms.'
+- id: doc.staleness
+  doctrine: 09-documentation-doctrine
+  category: accuracy
+  severity: minor
+  check: auto
+  tool: flag docs older than the code they describe
+  pass: Stale docs are flagged for review.
