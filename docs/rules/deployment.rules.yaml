@@ -1,0 +1,56 @@
+# deployment.rules.yaml -- machine-readable gate registry for Release / Deploy Engineering
+# check: auto (deterministic, blocks) | judge (independent model critic + rubric) | review (human)
+# severity: blocker | major | minor. doctrine = constitution doctrine this gate composes.
+
+version: 0.1.0
+domain: Release / Deploy Engineering
+constitution_min_version: 0.6.0
+doctrine_refs:
+- 12-operations-diagnostics-doctrine
+rubric:
+- safety
+- reversibility
+- provenance integrity
+rules:
+- id: rel.progressive-delivery
+  doctrine: 12-operations-diagnostics-doctrine
+  category: safety
+  severity: major
+  check: review
+  tool: risky changes ship via canary/gradual rollout
+  pass: Risky changes roll out progressively, not big-bang.
+- id: rel.feature-flags
+  doctrine: 12-operations-diagnostics-doctrine
+  category: safety
+  severity: minor
+  check: review
+  tool: deploy decoupled from release via flags; flags are removable
+  pass: Deploy is decoupled from release; flags are cleaned up.
+- id: rel.rollback-triggers
+  doctrine: 12-operations-diagnostics-doctrine
+  category: reversibility
+  severity: major
+  check: auto
+  tool: automated rollback triggers on SLO burn
+  pass: Automated rollback triggers exist and are tested.
+- id: rel.migration-gated
+  doctrine: 12-operations-diagnostics-doctrine
+  category: safety
+  severity: blocker
+  check: auto
+  tool: schema migration compatible with running and next version (expand/contract)
+  pass: Deploys with migrations are online-safe (expand/contract).
+- id: rel.artifact-signed
+  doctrine: 11-security-privacy-doctrine
+  category: provenance
+  severity: major
+  check: auto
+  tool: build artifacts signed; SLSA provenance recorded
+  pass: Artifacts are signed with recorded provenance.
+- id: rel.deploy-checklist
+  doctrine: 12-operations-diagnostics-doctrine
+  category: safety
+  severity: minor
+  check: review
+  tool: CI green, approvals, rollback plan before prod
+  pass: A deploy checklist gates production.

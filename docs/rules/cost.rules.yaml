@@ -1,0 +1,43 @@
+# cost.rules.yaml -- machine-readable gate registry for Cloud Cost / FinOps
+# check: auto (deterministic, blocks) | judge (independent model critic + rubric) | review (human)
+# severity: blocker | major | minor. doctrine = constitution doctrine this gate composes.
+
+version: 0.1.0
+domain: Cloud Cost / FinOps
+constitution_min_version: 0.6.0
+doctrine_refs:
+- 12-operations-diagnostics-doctrine
+- 03-architecture-doctrine
+rubric:
+- attribution
+- efficiency
+- waste control
+rules:
+- id: cost.tagged-attribution
+  doctrine: 12-operations-diagnostics-doctrine
+  category: attribution
+  severity: major
+  check: auto
+  tool: resources tagged to owner/service
+  pass: Spend is attributable via tags.
+- id: cost.budget-alerts
+  doctrine: 12-operations-diagnostics-doctrine
+  category: control
+  severity: major
+  check: auto
+  tool: budgets and spend-anomaly alerts
+  pass: Budgets and anomaly alerts are in place.
+- id: cost.right-sized
+  doctrine: 03-architecture
+  category: efficiency
+  severity: minor
+  check: review
+  tool: resources right-sized; idle waste flagged
+  pass: Resources are right-sized; idle waste is flagged.
+- id: cost.efficiency-in-design
+  doctrine: 03-architecture
+  category: efficiency
+  severity: minor
+  check: review
+  tool: cost considered in design (egress, storage tiers, retention)
+  pass: Cost is a considered dimension in architecture.

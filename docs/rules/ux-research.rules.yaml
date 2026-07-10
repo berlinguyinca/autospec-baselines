@@ -1,0 +1,42 @@
+# ux-research.rules.yaml -- machine-readable gate registry for UX Research Synthesis (optional)
+# check: auto (deterministic, blocks) | judge (independent model critic + rubric) | review (human)
+# severity: blocker | major | minor. doctrine = constitution doctrine this gate composes.
+
+version: 0.1.0
+domain: UX Research Synthesis (optional)
+constitution_min_version: 0.6.0
+doctrine_refs:
+- 01-product-doctrine
+rubric:
+- rigor
+- proportionality of claims
+- traceability
+rules:
+- id: uxr.evidence-proportionate
+  doctrine: 01-product-doctrine
+  category: rigor
+  severity: major
+  check: review
+  tool: conclusions proportionate to sample; no overclaim from small n
+  pass: Conclusions are proportionate to the evidence.
+- id: uxr.method-fit
+  doctrine: 01-product-doctrine
+  category: rigor
+  severity: minor
+  check: review
+  tool: method matches the research question
+  pass: The method fits the question.
+- id: uxr.bias-controls
+  doctrine: 01-product-doctrine
+  category: rigor
+  severity: minor
+  check: review
+  tool: leading-question and selection bias addressed
+  pass: Known biases are addressed.
+- id: uxr.traceable-findings
+  doctrine: 01-product-doctrine
+  category: traceability
+  severity: minor
+  check: review
+  tool: findings trace to raw observations
+  pass: Findings trace to raw data.

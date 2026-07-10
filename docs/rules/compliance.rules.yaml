@@ -1,0 +1,58 @@
+# compliance.rules.yaml -- machine-readable gate registry for Compliance & Regulatory
+# check: auto (deterministic, blocks) | judge (independent model critic + rubric) | review (human)
+# severity: blocker | major | minor. doctrine = constitution doctrine this gate composes.
+
+version: 0.1.0
+domain: Compliance & Regulatory
+constitution_min_version: 0.6.0
+doctrine_refs:
+- 20-compliance-and-regulatory-doctrine
+- 11-security-privacy-doctrine
+rubric:
+- obligation coverage
+- evidence sufficiency
+- privacy adequacy
+- license cleanliness
+rules:
+- id: comp.obligations-mapped
+  doctrine: 20-compliance-and-regulatory-doctrine
+  category: governance
+  severity: major
+  check: review
+  tool: applicable regulations mapped to requirement->control->evidence
+  pass: Obligations are registered and mapped to controls and evidence.
+- id: comp.privacy-by-design
+  doctrine: 20-compliance-and-regulatory-doctrine
+  category: privacy
+  severity: major
+  check: review
+  tool: new data flows reviewed for minimization and purpose limitation
+  pass: New data flows pass a privacy-by-design review.
+- id: comp.residency-retention
+  doctrine: 20-compliance-and-regulatory-doctrine
+  category: privacy
+  severity: major
+  check: auto
+  tool: residency and retention enforced in code/config
+  pass: Data residency and retention are enforced, not just documented.
+- id: comp.subject-rights
+  doctrine: 20-compliance-and-regulatory-doctrine
+  category: privacy
+  severity: major
+  check: review
+  tool: access/erasure/portability supported for regulated PII
+  pass: Data-subject rights are supported.
+- id: comp.license-compliance
+  doctrine: 20-compliance-and-regulatory-doctrine
+  category: supply-chain
+  severity: blocker
+  check: auto
+  tool: SBOM + OSS license policy gate
+  pass: No disallowed OSS licenses ship.
+- id: comp.audit-evidence
+  doctrine: 20-compliance-and-regulatory-doctrine
+  category: auditability
+  severity: major
+  check: auto
+  tool: evidence bundle produced for attestation
+  pass: An audit-ready evidence bundle is produced.

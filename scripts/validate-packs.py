@@ -129,6 +129,10 @@ def main():
                     find(f"{rel}: no rules[] list")
                     continue
                 before = len(findings)
+                for ref in (reg or {}).get("doctrine_refs") or []:
+                    if args.constitution_dir and not os.path.isfile(
+                            os.path.join(args.constitution_dir, "docs", f"{ref}.md")):
+                        find(f"{rel}: doctrine_refs '{ref}' does not resolve in {args.constitution_dir}/docs")
                 for r in rules:
                     if not isinstance(r, dict) or not r.get("id") or r.get("check") not in ("auto", "judge", "vlm", "review"):
                         find(f"{rel}: rule {r.get('id') if isinstance(r, dict) else r!r} needs an id and check in auto|judge|vlm|review")

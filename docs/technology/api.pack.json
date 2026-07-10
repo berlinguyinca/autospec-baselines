@@ -1,0 +1,64 @@
+{
+  "id": "technology/api",
+  "name": "API Contract Baseline Pack",
+  "category": "technology",
+  "version": "0.1.0",
+  "purpose": "Expectations for designing and evolving APIs as products, so contracts are stable, versioned, and safe for consumers.",
+  "whenToApply": [
+    "The change defines or modifies an API consumed by other services or external clients (REST, gRPC, GraphQL, events).",
+    "Backward compatibility and versioning affect consumers you do not control."
+  ],
+  "extends": [
+    "technology/python"
+  ],
+  "constitutionReferences": [
+    "03-architecture-doctrine",
+    "05-testing-doctrine",
+    "09-documentation-doctrine"
+  ],
+  "requiredCapabilities": [
+    "A machine-readable spec (OpenAPI / protobuf / GraphQL SDL) is the source of truth for the contract.",
+    "Backward compatibility: no breaking change ships without a major-version bump.",
+    "Automated breaking-change detection on the spec diff.",
+    "Consumer-driven contract tests gate changes.",
+    "A documented, consistent error contract.",
+    "A deprecation policy: announced changes, timelines, and sunsets."
+  ],
+  "recommendedCapabilities": [
+    "Spec-first workflow with generated clients/servers.",
+    "Compatibility gates in CI against published consumers.",
+    "Versioned, published changelog for the API.",
+    "Pagination, idempotency keys, and rate-limit semantics defined."
+  ],
+  "metadataRequirements": [
+    "API registry with surfaces, versions, and deprecation status.",
+    "Published spec artifacts.",
+    "Known consumers and their contracts."
+  ],
+  "qualityGates": [
+    "The spec is the source of truth and validates.",
+    "A spec diff runs breaking-change detection; breaking changes require a major version.",
+    "Consumer-driven contract tests pass.",
+    "Version reflects the change type (semver); deprecations follow the policy.",
+    "Error shapes are documented and consistent."
+  ],
+  "testingExpectations": [
+    "Spec validation in CI.",
+    "Breaking-change detection on every spec change.",
+    "Consumer-driven contract tests.",
+    "Backward-compatibility tests against the prior version."
+  ],
+  "documentationExpectations": [
+    "Publish the spec and a versioned changelog.",
+    "Document the error contract and deprecation timelines.",
+    "Provide client usage examples that are tested."
+  ],
+  "implementationIssueTemplates": [
+    {
+      "name": "Define or Evolve an API",
+      "description": "Add or change an API surface under the contract gates.",
+      "template": "## Goal\nDescribe the endpoint/message and its consumers.\n\n## Baseline Packs\n- technology/api\n\n## Required Evidence\n- Updated spec (source of truth)\n- Breaking-change detection result\n- Consumer-driven contract tests\n- Semver/deprecation applied\n\n## Acceptance Criteria\n- No breaking change without a major bump\n- Consumers unbroken\n- Error contract consistent\n- Changelog updated"
+    }
+  ],
+  "conflictsWith": []
+}

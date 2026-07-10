@@ -1,0 +1,24 @@
+{
+  "$description": "Obligations register — canonical map of regulatory obligation -> requirement -> control -> evidence. The compliance analog of a chart of accounts.",
+  "version": "0.1.0",
+  "obligations": [
+    {
+      "regulation": "GDPR",
+      "requirement": "Right to erasure",
+      "control": "subject-erasure workflow deletes PII across stores within 30d",
+      "evidence": "erasure job logs + verification query"
+    },
+    {
+      "regulation": "GDPR",
+      "requirement": "Data minimization",
+      "control": "data flows reviewed for purpose limitation before launch",
+      "evidence": "privacy review record"
+    },
+    {
+      "regulation": "OSS-Licensing",
+      "requirement": "No disallowed licenses",
+      "control": "SBOM + license policy gate",
+      "evidence": "license scan report"
+    }
+  ]
+}

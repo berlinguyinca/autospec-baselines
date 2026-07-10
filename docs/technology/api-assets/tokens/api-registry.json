@@ -1,0 +1,19 @@
+{
+  "$description": "API registry — canonical surface of published APIs with versions and deprecation status.",
+  "version": "0.1.0",
+  "apis": [
+    {
+      "name": "public-rest",
+      "spec": "openapi/public.yaml",
+      "version": "2.3.0",
+      "status": "active"
+    },
+    {
+      "name": "legacy-rest",
+      "spec": "openapi/legacy.yaml",
+      "version": "1.9.0",
+      "status": "deprecated",
+      "sunset": "2026-12-31"
+    }
+  ]
+}

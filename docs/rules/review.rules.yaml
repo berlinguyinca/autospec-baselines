@@ -1,0 +1,50 @@
+# review.rules.yaml -- machine-readable gate registry for Review & Critique (meta)
+# check: auto (deterministic, blocks) | judge (independent model critic + rubric) | review (human)
+# severity: blocker | major | minor. doctrine = constitution doctrine this gate composes.
+
+version: 0.1.0
+domain: Review & Critique (meta)
+constitution_min_version: 0.6.0
+doctrine_refs:
+- 19-review-and-critique-doctrine
+rubric:
+- independence
+- rubric coverage
+- calibration
+- actionability of findings
+rules:
+- id: rev.independent
+  doctrine: 19-review-and-critique-doctrine
+  category: governance
+  severity: blocker
+  check: review
+  tool: the reviewer/critic is not the producer for high-stakes work
+  pass: High-stakes work is judged by someone/something independent of its producer.
+- id: rev.rubric-scored
+  doctrine: 19-review-and-critique-doctrine
+  category: coverage
+  severity: major
+  check: auto
+  tool: all rubric dimensions scored; judge given only artifact+brief+rubric
+  pass: Every rubric dimension is scored against a fixed standard.
+- id: rev.non-regression-enforced
+  doctrine: 19-review-and-critique-doctrine
+  category: governance
+  severity: blocker
+  check: auto
+  tool: review blocks any gate or rubric-score regression vs base
+  pass: No change that lowers a gate or rubric score is accepted.
+- id: rev.findings-actionable
+  doctrine: 19-review-and-critique-doctrine
+  category: actionability
+  severity: major
+  check: review
+  tool: findings cite specific rules and a concrete fix
+  pass: Findings are specific, rule-anchored, and actionable, not taste-driven rewrites.
+- id: rev.evidence-recorded
+  doctrine: 19-review-and-critique-doctrine
+  category: auditability
+  severity: minor
+  check: auto
+  tool: scores + gate results persisted with the artifact
+  pass: The review's evidence is recorded.

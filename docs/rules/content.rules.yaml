@@ -1,0 +1,42 @@
+# content.rules.yaml -- machine-readable gate registry for Marketing / Content (optional)
+# check: auto (deterministic, blocks) | judge (independent model critic + rubric) | review (human)
+# severity: blocker | major | minor. doctrine = constitution doctrine this gate composes.
+
+version: 0.1.0
+domain: Marketing / Content (optional)
+constitution_min_version: 0.6.0
+doctrine_refs:
+- 09-documentation-doctrine
+rubric:
+- voice fit
+- accuracy of claims
+- disclosure compliance
+rules:
+- id: content.brand-voice
+  doctrine: 09-documentation-doctrine
+  category: voice
+  severity: minor
+  check: judge
+  tool: independent critic vs brand/style guide
+  pass: Content matches the brand voice and style guide.
+- id: content.claim-substantiation
+  doctrine: 09-documentation-doctrine
+  category: accuracy
+  severity: major
+  check: review
+  tool: factual/marketing claims cite substantiation
+  pass: Claims are substantiated, not asserted.
+- id: content.required-disclosures
+  doctrine: 09-documentation-doctrine
+  category: compliance
+  severity: major
+  check: auto
+  tool: required disclosures/disclaimers present
+  pass: Required disclosures are present.
+- id: content.originality
+  doctrine: 09-documentation-doctrine
+  category: accuracy
+  severity: minor
+  check: auto
+  tool: originality/plagiarism check
+  pass: Content is original.
