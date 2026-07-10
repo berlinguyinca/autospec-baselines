@@ -1,0 +1,32 @@
+name: validate
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Cross-repo composition contract: constitutionReferences must resolve
+      # against the real constitution repo, not against memory.
+      - uses: actions/checkout@v4
+        with:
+          repository: berlinguyinca/autospec-constitution
+          path: .constitution
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install validator dependencies
+        run: pip install jsonschema
+
+      - name: Validate packs, tokens, references, and links
+        run: python3 scripts/validate-packs.py --constitution-dir .constitution
+
+      - name: Pack docs derived from pack JSON (no duo drift)
+        run: python3 scripts/gen-pack-doc.py --all --check

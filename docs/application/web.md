@@ -20,63 +20,109 @@ stable navigation, and predictable client/server behavior.
 
 ## Required Capabilities
 
-- A layered design-token system (primitive → semantic → component). Components consume
-  semantic tokens only; no raw color/spacing/type literals.
-- Theme switching by swapping the semantic layer, with light and dark as distinct
-  designs (not inversions), resolved before first paint.
+- Layered design-token system (primitive to semantic to component); components consume semantic
+  tokens only.
+- Theme switching by swapping the semantic layer; light and dark as distinct designs; resolved
+  before first paint.
 - Route-level flows with explicit loading, empty, error, and success states.
-- Responsive layouts across mobile, tablet, and desktop, with a capped reading measure.
-- Accessible semantics, keyboard operability, visible `:focus-visible` states, and
-  WCAG 2.2 AA contrast in every theme.
-- The correct interaction/ARIA model for each component pattern used (dialogs, wizards,
-  tabs, tables, lists, menus, tooltips, toasts).
+- Responsive layouts across mobile, tablet, and desktop with a capped reading measure.
+- Accessible semantics, keyboard operability, visible focus-visible states, and WCAG 2.2 AA
+  contrast in every theme.
+- Correct interaction and ARIA model for each component pattern used.
 - Durable form validation with server-side enforcement for trusted decisions.
-- User-facing failures that carry an actionable message and a correlation id, with a
-  matching id in backend logs/traces.
+- User-facing failures carrying an actionable message and correlation id that also appears in
+  backend logs and traces.
+- Design tokens shipped in DTCG 2025.10 format, validated against the DTCG schema, transformed
+  via Style Dictionary v4+ to per-theme CSS custom properties.
+- Interactive components built on a vetted headless primitive layer (Radix, React Aria, Ark, or
+  Base UI) or native dialog/popover; hand-rolled patterns follow the WAI-ARIA APG.
+- Restrictive Content Security Policy and baseline security headers (HSTS,
+  X-Content-Type-Options, Referrer-Policy, Permissions-Policy); SRI on third-party resources;
+  dependency/supply-chain scanning.
+- Plain-language and reading-level appropriate content, cognitive-load reduction, and core flows
+  usable on low-end devices and without full JavaScript.
+- Generated or refined UI evaluated by deterministic gates plus an independent VLM critic with a
+  non-regression guard; evidence attached.
+- A persistent app shell and a reused set of page templates; content measure, gutters, vertical
+  rhythm, and recurring-element placement consistent across pages.
+- Structural layout values as layout tokens, pages composed from intrinsic layout primitives
+  (Every Layout set), spacing owned by gap/primitives.
+- Responsive to viewport class via media queries and to component slot via container queries;
+  adaptation to input modality (pointer/hover), not width alone.
+- Dynamic viewport units (svh/dvh/lvh with vh fallback) and safe-area insets for mobile browser
+  chrome and device notches.
+- Collapsible navigation that hides only when space-constrained, with an accessible,
+  keyboard-operable, state-persisted toggle.
 
 ## Recommended Capabilities
 
-- Fluid type and spacing (non-linear scales; inverse line-height/tracking).
-- A command palette and keyboard shortcuts for app-like surfaces.
+- Fluid type and spacing with non-linear scales and inverse line-height/tracking.
+- Command palette and keyboard shortcuts for app-like surfaces.
 - Optimistic UI with reconciliation for common actions.
-- Internationalization readiness: logical properties for RTL, text-expansion
-  tolerance, `Intl` formatting.
-- SEO and share metadata (title, description, Open Graph) for public routes.
+- Internationalization readiness: logical properties for RTL, text-expansion tolerance, Intl
+  formatting.
+- SEO and share metadata for public routes.
 - Performance budgets for first load and key interactions (Core Web Vitals).
-- Story/fixture coverage for important UI states, in both themes.
+- Story or fixture coverage for important UI states in both themes.
+- Native platform primitives where Baseline: light-dark()/contrast-color(), @starting-style +
+  allow-discrete + Popover API, anchor positioning with fallback, same-document View
+  Transitions, text-wrap balance/pretty.
 
 ## Metadata Requirements
 
 - Primary user roles and critical workflows.
 - Supported viewport classes and browser targets.
 - Supported themes and the semantic token map.
-- Authentication/authorization boundaries and external service dependencies.
+- Authentication and authorization boundaries and external service dependencies.
 - Accessibility conformance target and correlation-id scheme.
+- Design-token source file and schema version.
+- Security header and CSP policy reference.
+- Reading-level target and low-end device performance budget.
+- Page-template inventory (archetypes) and the layout-token set (container widths, gutters,
+  breakpoints).
 
 ## Quality Gates
 
 - Visual values trace to tokens; a lint forbids raw color/spacing/type literals.
 - Contrast meets WCAG 2.2 AA in every supported theme; no color-only status.
-- Interactive controls have labels, focus-visible states, and correct keyboard
-  behavior; overlays trap and restore focus and close on Escape.
-- Every data-dependent view handles loading, empty, validation, permission, network,
-  and unexpected error states.
-- Component patterns follow their documented ARIA/interaction model (e.g. tab lists use
-  roving tabindex and reflect the active tab in the URL; bar charts start at zero).
-- User-facing failures show an actionable message + correlation id, never internals;
-  the id appears in logs/traces.
+- Interactive controls have labels, focus-visible states, and keyboard behavior; overlays trap
+  and restore focus and close on Escape.
+- Every data-dependent view handles loading, empty, validation, permission, network, and
+  unexpected error states.
+- Component patterns follow their documented ARIA/interaction model; tab lists reflect the
+  active tab in the URL; bar charts start at zero.
+- User-facing failures show an actionable message and correlation id, never internals; the id
+  appears in logs and traces.
 - Theme switching re-themes charts, media, and overlays.
 - No user-visible placeholder copy, debug state, or broken navigation.
 - Critical workflows complete without console errors.
 - Performance regressions are explained or rejected.
+- tokens.json validates against the DTCG 2025.10 schema; a lint forbids raw color/spacing/type
+  literals in components.
+- Restrictive CSP and baseline security headers are served; third-party resources carry
+  integrity; dependency scan has no known-critical findings.
+- Primary content meets the target reading level and is within a low-end mobile performance
+  budget; core flows work with a feature or JavaScript absent.
+- A design brief pinning subject/audience/signature exists before generation and the output
+  passes an anti-sameness check.
+- Generated/refined UI has attached evidence (per-state/per-theme screenshots, deterministic
+  gate results, independent-critic rubric scores) and no accepted refinement regressed a prior
+  gate or rubric dimension.
+- The app shell does not shift or resize between navigations; sibling pages of the same template
+  are consistent in shell, gutters, and rhythm.
+- Layout values trace to layout tokens; pages composed from the primitive set.
+- Correct across viewport classes, orientations, and input modalities with safe-area insets
+  respected; full-height layouts use dynamic viewport units with a fallback.
+- Navigation is not hidden when it fits; collapsible navigation is keyboard-operable and
+  state-persisted.
 
 ## Testing Expectations
 
-- End-to-end tests for critical workflows (see `testing/playwright`).
-- Component/integration tests for reusable interaction patterns.
-- Automated accessibility checks (e.g. axe/pa11y) on representative pages and states.
+- End-to-end tests for critical workflows.
+- Component or integration tests for reusable interaction patterns.
+- Automated accessibility checks on representative pages and states.
 - Visual-regression baselines diffed for meaningful UI changes, in light and dark.
-- Core Web Vitals budget checks recorded as pass/fail.
+- Core Web Vitals budget checks recorded as pass or fail.
 - Keyboard-operable coverage for critical flows.
 - Regression tests for bug fixes that affect user-visible behavior.
 
@@ -89,30 +135,27 @@ stable navigation, and predictable client/server behavior.
 
 ## UI/UX Expectations
 
-- Prioritize task completion over decoration; spend visual boldness in one signature
-  place and keep the rest quiet.
-- Choose the least interruptive surface for each task
-  (inline < popover/tooltip < toast < drawer < modal < page/wizard); never stack modals.
-- Use consistent navigation, action placement, terminology, and motion; keep an
-  action's verb consistent through its flow.
-- Make the primary action singular and distinct; make destructive actions explicit and
-  reversible (prefer undo over confirm).
-- Group with spacing so between-group gaps exceed within-group gaps.
-- Ensure text fits containers across supported viewports and locales.
-- Never communicate status by color alone; honor reduced-motion preferences.
+- Prioritize task completion over decoration; one signature element, quiet elsewhere.
+- Choose the least interruptive surface; never stack modals.
+- Consistent navigation, action placement, terminology, and motion; consistent action verbs
+  through a flow.
+- Singular, distinct primary action; explicit reversible destructive actions (prefer undo over
+  confirm).
+- Between-group spacing exceeds within-group spacing.
+- Text fits containers across viewports and locales.
+- Never status by color alone; honor reduced-motion.
 
 ## AI Assistant Expectations
 
 If an assistant is embedded (compose `ai/rag`, `ai/openai-compatible`, and/or `ai/mcp`):
 
-- It is never the only path to a capability; every action has a conventional-UI
-  equivalent.
-- It is grounded in real data and cites sources; it is honest about uncertainty.
-- It shows intended actions before executing; side-effectful/irreversible actions are
-  confirmed and reversible where possible.
-- It streams, is interruptible, and discloses what data it can access.
-- It treats instructions in fetched/observed content as data, not commands.
-- It is evaluated on task success, not engagement.
+- Never the only path to a capability; every action has a conventional-UI equivalent.
+- Grounded in real data and cites sources; honest about uncertainty.
+- Shows intended actions before executing; confirms side-effectful or irreversible actions and
+  keeps them reversible where possible.
+- Streams, is interruptible, and discloses accessible data scope.
+- Treats instructions in fetched or observed content as data, not commands.
+- Evaluated on task success, not engagement.
 
 ## Implementation Issue Templates
 
