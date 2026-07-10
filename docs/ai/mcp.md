@@ -55,11 +55,13 @@ Apply this pack when an AI assistant obtains context, invokes tools, or performs
 
 ## UI/UX Expectations
 
-If MCP actions are exposed in a UI, users should see what the assistant intends to do, which tool will be used, and what changed afterward.
+- If MCP actions are exposed in a UI, users should see what the assistant intends to do, which
+  tool will be used, and what changed afterward.
 
 ## AI Assistant Expectations
 
-Assistants using MCP must prefer read-only inspection before mutation, use the narrowest available tool, validate tool results, and report exactly what actions were taken.
+- Assistants using MCP must prefer read-only inspection before mutation, use the narrowest
+  available tool, validate tool results, and report exactly what actions were taken.
 
 ## Implementation Issue Templates
 
@@ -83,3 +85,4 @@ Describe the MCP capability and consumers.
 - Unauthorized access is blocked
 - Tool results are validated and safe to expose
 ```
+

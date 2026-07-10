@@ -55,12 +55,14 @@ Apply this pack when code targets an OpenAI-style API contract, including offici
 
 ## UI/UX Expectations
 
-- User-facing flows should show pending, retry, failure, and degraded states for provider issues.
+- User-facing flows should show pending, retry, failure, and degraded states for provider
+  issues.
 - Costly or long-running actions should communicate progress and limits.
 
 ## AI Assistant Expectations
 
-The assistant must respect provider limitations, validate structured outputs, avoid fabricating tool results, and clearly separate model-generated content from verified data.
+- The assistant must respect provider limitations, validate structured outputs, avoid
+  fabricating tool results, and clearly separate model-generated content from verified data.
 
 ## Implementation Issue Templates
 
@@ -84,3 +86,4 @@ Describe the model-powered workflow and provider.
 - Responses are validated before use
 - Cost, latency, and quality tradeoffs are known
 ```
+

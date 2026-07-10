@@ -1,0 +1,68 @@
+{
+  "id": "ai/openai-compatible",
+  "name": "OpenAI-Compatible API Baseline Pack",
+  "category": "ai",
+  "version": "0.1.0",
+  "purpose": "Define expectations for systems that integrate with OpenAI-compatible chat, responses, embeddings, image, audio, or tool-calling APIs across hosted or self-hosted providers.",
+  "whenToApply": [
+    "Apply this pack when code targets an OpenAI-style API contract, including official OpenAI services or providers exposing compatible endpoints."
+  ],
+  "extends": [],
+  "constitutionReferences": [
+    "07-ai-platform-doctrine"
+  ],
+  "requiredCapabilities": [
+    "Provider, endpoint, model, and API version metadata.",
+    "Request and response schema handling.",
+    "Timeout, retry, and rate-limit behavior.",
+    "Secret management outside source control.",
+    "Evaluation coverage for provider or model changes."
+  ],
+  "recommendedCapabilities": [
+    "Provider abstraction only when multiple providers are actually required.",
+    "Cost and token usage tracking.",
+    "Structured output validation.",
+    "Idempotency strategy for retried action-producing requests.",
+    "Canary tests for model upgrades."
+  ],
+  "metadataRequirements": [
+    "Provider name and compatibility scope.",
+    "Model identifiers and default parameters.",
+    "Authentication and secret storage method.",
+    "Rate limits, quotas, and expected cost envelope.",
+    "Data retention and privacy terms relevant to the provider."
+  ],
+  "qualityGates": [
+    "Requests do not log secrets or unnecessary sensitive content.",
+    "Responses are validated before downstream use.",
+    "Retries do not duplicate irreversible actions.",
+    "Provider-specific behavior is documented where compatibility differs.",
+    "Model changes include quality, cost, and latency comparison."
+  ],
+  "testingExpectations": [
+    "Contract tests using recorded or test-provider responses where appropriate.",
+    "Failure tests for timeouts, malformed responses, and rate limits.",
+    "Evaluation tests for task quality.",
+    "Secret-leak checks in logs and fixtures."
+  ],
+  "documentationExpectations": [
+    "Document configuration, required environment variables, and provider assumptions.",
+    "Document model selection and upgrade procedure.",
+    "Document known compatibility gaps."
+  ],
+  "uiUxExpectations": [
+    "User-facing flows should show pending, retry, failure, and degraded states for provider issues.",
+    "Costly or long-running actions should communicate progress and limits."
+  ],
+  "aiAssistantExpectations": [
+    "The assistant must respect provider limitations, validate structured outputs, avoid fabricating tool results, and clearly separate model-generated content from verified data."
+  ],
+  "implementationIssueTemplates": [
+    {
+      "name": "Add OpenAI-Compatible Integration",
+      "description": "Integrate an OpenAI-compatible API surface under the platform gates.",
+      "template": "## Goal\nDescribe the model-powered workflow and provider.\n\n## Baseline Packs\n- ai/openai-compatible\n\n## Required Evidence\n- Provider/model configuration\n- Failure and rate-limit handling tests\n- Evaluation results for representative tasks\n- Secret handling review\n\n## Acceptance Criteria\n- Provider behavior is documented\n- Responses are validated before use\n- Cost, latency, and quality tradeoffs are known"
+    }
+  ],
+  "conflictsWith": []
+}

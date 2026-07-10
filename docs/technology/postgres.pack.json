@@ -1,0 +1,72 @@
+{
+  "id": "technology/postgres",
+  "name": "Postgres Baseline Pack",
+  "category": "technology",
+  "version": "0.1.0",
+  "purpose": "Define expectations for projects using PostgreSQL for transactional storage, analytical storage, queues, search, or operational metadata.",
+  "whenToApply": [
+    "Apply this pack when PostgreSQL schema, queries, migrations, permissions, backup/restore, or performance characteristics affect the product."
+  ],
+  "extends": [],
+  "constitutionReferences": [
+    "03-architecture-doctrine",
+    "11-security-privacy-doctrine",
+    "12-operations-diagnostics-doctrine"
+  ],
+  "requiredCapabilities": [
+    "Versioned schema migrations.",
+    "Primary keys, foreign keys, constraints, and indexes for important access patterns.",
+    "Transaction boundaries for multi-step writes.",
+    "Least-privilege database roles.",
+    "Backup, restore, and migration rollback expectations.",
+    "Schema changes use expand/contract: add-and-backfill first, switch reads, then remove — no destructive step in the same release as code that still needs the old shape.",
+    "Migrations are online-safe on large tables (no long-held locks) and tested at prod-like volume.",
+    "Backfills are batched and idempotent."
+  ],
+  "recommendedCapabilities": [
+    "Query plans for high-volume or latency-sensitive queries.",
+    "Seed data or fixtures for development and tests.",
+    "Row-level security where tenant or user boundaries require it.",
+    "Migration rehearsal for large tables.",
+    "Data retention and archival strategy."
+  ],
+  "metadataRequirements": [
+    "PostgreSQL version target.",
+    "Database ownership and operational contact.",
+    "Schema ownership and migration tool.",
+    "Data classification and retention expectations.",
+    "Critical query paths and expected scale."
+  ],
+  "qualityGates": [
+    "Migrations are reversible or have a documented recovery path.",
+    "Constraints enforce data integrity where application bugs would be costly.",
+    "Sensitive tables have appropriate permissions.",
+    "High-risk queries are reviewed for indexes and execution plan.",
+    "Schema changes account for existing production data."
+  ],
+  "testingExpectations": [
+    "Migration tests against realistic schema state.",
+    "Integration tests for repository or query behavior.",
+    "Permission tests for sensitive data paths.",
+    "Regression tests for data integrity bugs."
+  ],
+  "documentationExpectations": [
+    "Document schema ownership and migration commands.",
+    "Document operational procedures for backup, restore, and rollback.",
+    "Document data retention and privacy-sensitive tables."
+  ],
+  "uiUxExpectations": [
+    "Database-backed UI should show truthful states for pending writes, conflicts, stale reads, and partial failures."
+  ],
+  "aiAssistantExpectations": [
+    "If AI proposes SQL or migrations, it must explain data impact, identify locking and rollback considerations, and avoid destructive migration steps without explicit justification."
+  ],
+  "implementationIssueTemplates": [
+    {
+      "name": "Add Or Change Schema",
+      "description": "Add or change schema under the migration-safety gates.",
+      "template": "## Goal\nDescribe the data model or query behavior.\n\n## Baseline Packs\n- technology/postgres\n\n## Required Evidence\n- Migration and rollback/recovery notes\n- Constraint/index review\n- Integration or migration test\n- Data impact assessment\n\n## Acceptance Criteria\n- Existing data is handled safely\n- Integrity rules are enforced by the database where appropriate\n- Sensitive access respects role boundaries"
+    }
+  ],
+  "conflictsWith": []
+}

@@ -62,7 +62,9 @@ Apply this pack when results may inform scientific conclusions, experiments, pub
 
 ## AI Assistant Expectations
 
-If AI assists scientific work, it must distinguish literature-backed statements from speculation, cite sources when used, expose uncertainty, and avoid fabricating references, measurements, or conclusions.
+- If AI assists scientific work, it must distinguish literature-backed statements from
+  speculation, cite sources when used, expose uncertainty, and avoid fabricating references,
+  measurements, or conclusions.
 
 ## Implementation Issue Templates
 
@@ -106,3 +108,4 @@ Describe the methodological change.
 - Prior results affected by the change are identified
 - Tests cover boundary and reference cases
 ```
+

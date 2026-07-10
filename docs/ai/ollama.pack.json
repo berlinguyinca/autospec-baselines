@@ -1,0 +1,68 @@
+{
+  "id": "ai/ollama",
+  "name": "Ollama Baseline Pack",
+  "category": "ai",
+  "version": "0.1.0",
+  "purpose": "Define expectations for systems that use Ollama to run local or self-hosted models.",
+  "whenToApply": [
+    "Apply this pack when project behavior depends on Ollama model serving, local model files, model tags, hardware constraints, or offline AI workflows."
+  ],
+  "extends": [],
+  "constitutionReferences": [
+    "07-ai-platform-doctrine"
+  ],
+  "requiredCapabilities": [
+    "Explicit model names, tags, and expected context sizes.",
+    "Hardware and runtime requirements.",
+    "Startup, health, and failure handling.",
+    "Prompt and output compatibility tests for selected models.",
+    "Clear fallback or degradation behavior when Ollama is unavailable."
+  ],
+  "recommendedCapabilities": [
+    "Model checksum or provenance tracking.",
+    "Performance benchmarks for target hardware.",
+    "Separate profiles for development and production-like environments.",
+    "Resource limits and concurrency expectations.",
+    "Local data privacy review."
+  ],
+  "metadataRequirements": [
+    "Ollama version range.",
+    "Model tags and source.",
+    "CPU/GPU, memory, and disk requirements.",
+    "Expected latency and throughput.",
+    "Offline and network access assumptions."
+  ],
+  "qualityGates": [
+    "The selected model is available before dependent workflows run.",
+    "Output quality is evaluated for the intended task.",
+    "Resource usage does not make the host unstable.",
+    "Failures are visible and recoverable.",
+    "Local model use does not bypass data handling policy."
+  ],
+  "testingExpectations": [
+    "Health checks for the Ollama service.",
+    "Smoke tests for model loading and representative prompts.",
+    "Timeout and unavailable-service tests.",
+    "Performance checks for target hardware where release-critical."
+  ],
+  "documentationExpectations": [
+    "Document install, pull, run, and troubleshooting steps.",
+    "Document model selection rationale and limitations.",
+    "Document hardware expectations and known performance tradeoffs."
+  ],
+  "uiUxExpectations": [
+    "Long local model operations should show progress or pending state.",
+    "Users should know when local model quality or availability is degraded."
+  ],
+  "aiAssistantExpectations": [
+    "Assistants using Ollama must account for model-specific limits, avoid claiming hosted-model capabilities unless verified, and surface uncertainty when local model quality is lower than expected."
+  ],
+  "implementationIssueTemplates": [
+    {
+      "name": "Add Ollama-backed Capability",
+      "description": "Add a capability served by a local or self-hosted Ollama model.",
+      "template": "## Goal\nDescribe the local model workflow.\n\n## Baseline Packs\n- ai/ollama\n\n## Required Evidence\n- Model tag and runtime requirements\n- Health and unavailable-service tests\n- Representative prompt evaluation\n- Performance notes on target hardware\n\n## Acceptance Criteria\n- Workflow degrades clearly when Ollama is unavailable\n- Model behavior meets documented expectations\n- Setup instructions reproduce the local environment"
+    }
+  ],
+  "conflictsWith": []
+}

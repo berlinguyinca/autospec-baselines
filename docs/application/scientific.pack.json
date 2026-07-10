@@ -1,0 +1,77 @@
+{
+  "id": "application/scientific",
+  "name": "Scientific Baseline Pack",
+  "category": "application",
+  "version": "0.1.0",
+  "purpose": "Define expectations for software used in scientific, research, modeling, simulation, laboratory, or reproducibility-sensitive contexts.",
+  "whenToApply": [
+    "Apply this pack when results may inform scientific conclusions, experiments, publications, clinical or environmental decisions, or reproducible research artifacts."
+  ],
+  "extends": [],
+  "constitutionReferences": [
+    "05-testing-doctrine",
+    "09-documentation-doctrine",
+    "10-analytics-reporting-visualization"
+  ],
+  "requiredCapabilities": [
+    "Reproducible environment and dependency specification.",
+    "Versioned input data, parameters, and result artifacts.",
+    "Explicit units, assumptions, and numerical tolerances.",
+    "Validation against known examples, fixtures, or reference outputs.",
+    "Provenance records for generated results."
+  ],
+  "recommendedCapabilities": [
+    "Deterministic execution mode where feasible.",
+    "Independent reference implementation or benchmark comparison for critical algorithms.",
+    "Notebook-to-script promotion path for production analysis.",
+    "Peer review checklist for methodology-sensitive changes.",
+    "Artifact manifests for published outputs."
+  ],
+  "metadataRequirements": [
+    "Scientific domain and intended use.",
+    "Dataset provenance, licenses, and transformations.",
+    "Algorithm references and assumptions.",
+    "Numerical precision, tolerances, and units.",
+    "Reproducibility instructions."
+  ],
+  "qualityGates": [
+    "Results can be reproduced from documented inputs.",
+    "Unit conversions and tolerances are tested.",
+    "Randomness is seeded or documented.",
+    "Methodological changes identify affected prior outputs.",
+    "Claims do not exceed validated evidence."
+  ],
+  "testingExpectations": [
+    "Tests for core formulas, algorithms, and boundary cases.",
+    "Regression tests against reference outputs.",
+    "Sensitivity checks for important parameters.",
+    "Reproduction test for at least one representative workflow."
+  ],
+  "documentationExpectations": [
+    "Document scientific assumptions and limitations.",
+    "Document data provenance and licensing.",
+    "Document exact reproduction steps.",
+    "Document how to interpret result artifacts."
+  ],
+  "uiUxExpectations": [
+    "Interfaces must display units, confidence, uncertainty, and warning states where relevant.",
+    "Users should be prevented from mixing incompatible units or invalid parameter ranges silently.",
+    "Result exports should include provenance metadata."
+  ],
+  "aiAssistantExpectations": [
+    "If AI assists scientific work, it must distinguish literature-backed statements from speculation, cite sources when used, expose uncertainty, and avoid fabricating references, measurements, or conclusions."
+  ],
+  "implementationIssueTemplates": [
+    {
+      "name": "Add Scientific Workflow",
+      "description": "Add a reproducible scientific workflow with provenance.",
+      "template": "## Goal\nDescribe the scientific workflow and intended use.\n\n## Baseline Packs\n- application/scientific\n\n## Required Evidence\n- Reproduction steps\n- Reference output or benchmark comparison\n- Units and tolerance tests\n- Data provenance notes\n\n## Acceptance Criteria\n- Representative results are reproducible\n- Assumptions and limitations are documented\n- Invalid parameters are rejected or clearly warned"
+    },
+    {
+      "name": "Change Model Or Algorithm",
+      "description": "Change a model or algorithm with validation against reference results.",
+      "template": "## Change\nDescribe the methodological change.\n\n## Baseline Packs\n- application/scientific\n\n## Required Evidence\n- Before/after output comparison\n- Affected artifact review\n- Peer or methodology review notes\n\n## Acceptance Criteria\n- Differences are explained\n- Prior results affected by the change are identified\n- Tests cover boundary and reference cases"
+    }
+  ],
+  "conflictsWith": []
+}
