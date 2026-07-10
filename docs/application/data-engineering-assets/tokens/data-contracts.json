@@ -1,0 +1,22 @@
+{
+  "$description": "Data contracts — the canonical agreement between producers and consumers at each pipeline boundary. Referenced, not redefined per job.",
+  "version": "0.1.0",
+  "contracts": [
+    {
+      "name": "orders_events",
+      "producer": "orders-service",
+      "consumers": [
+        "analytics",
+        "data-science"
+      ],
+      "schema": {
+        "order_id": "string",
+        "amount": "decimal",
+        "currency": "string",
+        "created_at": "timestamp"
+      },
+      "compatibility": "backward",
+      "sla": "events available within 15m"
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+# localization.rules.yaml -- machine-readable gate registry for Localization Workflow (optional)
+# check: auto (deterministic, blocks) | judge (independent model critic + rubric) | review (human)
+# severity: blocker | major | minor. doctrine = constitution doctrine this gate composes.
+
+version: 0.1.0
+domain: Localization Workflow (optional)
+constitution_min_version: 0.6.0
+doctrine_refs:
+- 06-ui-ux-doctrine
+rubric:
+- coverage
+- correctness
+- layout resilience
+rules:
+- id: l10n.no-hardcoded-strings
+  doctrine: 06-ui-ux-doctrine
+  category: coverage
+  severity: major
+  check: auto
+  tool: user-facing strings externalized to catalogs
+  pass: No hardcoded user-facing strings.
+- id: l10n.icu-plurals
+  doctrine: 06-ui-ux-doctrine
+  category: correctness
+  severity: major
+  check: auto
+  tool: pluralization via ICU, not string concatenation
+  pass: Plurals/gender use ICU messages.
+- id: l10n.expansion-safe
+  doctrine: 06-ui-ux-doctrine
+  category: layout
+  severity: minor
+  check: judge
+  tool: layout survives ~35% text expansion and RTL
+  pass: Layout survives text expansion and RTL (design a11y ref).
+- id: l10n.locale-formatting
+  doctrine: 06-ui-ux-doctrine
+  category: correctness
+  severity: minor
+  check: auto
+  tool: dates/numbers/currency via Intl
+  pass: Locale formatting uses Intl, not hardcoded formats.

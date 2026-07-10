@@ -1,0 +1,67 @@
+{
+  "id": "application/data-engineering",
+  "name": "Data Engineering Baseline Pack",
+  "category": "application",
+  "version": "0.1.0",
+  "purpose": "Expectations for systems that move and transform data through pipelines, so jobs are correct, replayable, contract-bound, and observable.",
+  "whenToApply": [
+    "The system ingests, transforms, or moves data through batch or streaming pipelines.",
+    "Downstream analytics, models, or reports depend on the pipeline's correctness and freshness."
+  ],
+  "extends": [
+    "technology/python",
+    "technology/postgres",
+    "application/analytics"
+  ],
+  "constitutionReferences": [
+    "03-architecture-doctrine",
+    "04-engineering-doctrine",
+    "10-analytics-reporting-visualization"
+  ],
+  "requiredCapabilities": [
+    "Jobs are idempotent and replayable: re-running a step yields the same result and does not double-count.",
+    "Data contracts between producers and consumers, with enforced schemas at boundaries.",
+    "Schema evolution is backward-compatible or explicitly versioned; consumers are not broken silently.",
+    "Backfills are bounded, idempotent, and reconcile to expected totals.",
+    "Row-count and quality assertions catch silent data loss before downstream use.",
+    "Lineage recorded from source through transform to output."
+  ],
+  "recommendedCapabilities": [
+    "Orchestration with retries, backfill windows, and dependency-aware scheduling.",
+    "Data-contract tests in CI between producers and consumers.",
+    "Late-arriving and out-of-order data handling for streams.",
+    "Partitioning and incremental processing for large volumes."
+  ],
+  "metadataRequirements": [
+    "Pipeline/DAG inventory with owners and SLAs.",
+    "Data contracts and schemas at each boundary.",
+    "Lineage graph.",
+    "Data classification and retention for moved data."
+  ],
+  "qualityGates": [
+    "Jobs are idempotent and replayable; a re-run does not change the result.",
+    "Schema changes are backward-compatible or versioned; a contract test proves consumers still parse.",
+    "Backfills reconcile to expected totals; no silent row loss (quality assertions pass).",
+    "Pipeline SLAs are monitored; late or failed runs alert before users rely on stale output.",
+    "Moved PII is classified and handled per policy."
+  ],
+  "testingExpectations": [
+    "Idempotency/replay tests (run twice, assert equal).",
+    "Contract tests between producers and consumers.",
+    "Data-quality assertions (row counts, nulls, referential integrity).",
+    "Backfill reconciliation tests."
+  ],
+  "documentationExpectations": [
+    "Publish the DAG inventory, contracts, and lineage.",
+    "Document backfill and replay procedures.",
+    "Document SLAs and on-call ownership."
+  ],
+  "implementationIssueTemplates": [
+    {
+      "name": "Add or Change a Pipeline",
+      "description": "Build or modify a data pipeline under the engineering gates.",
+      "template": "## Goal\nDescribe source, transform, and consumers.\n\n## Baseline Packs\n- application/data-engineering\n\n## Required Evidence\n- Idempotency/replay test\n- Contract test with consumers\n- Data-quality assertions\n- Backfill reconciliation (if applicable)\n\n## Acceptance Criteria\n- Re-run is a no-op on results\n- Consumers unbroken\n- No silent data loss\n- SLA/alerting wired"
+    }
+  ],
+  "conflictsWith": []
+}

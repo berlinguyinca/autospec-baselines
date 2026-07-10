@@ -1,0 +1,66 @@
+# api-contract.rules.yaml -- machine-readable gate registry for API Contract
+# check: auto (deterministic, blocks) | judge (independent model critic + rubric) | review (human)
+# severity: blocker | major | minor. doctrine = constitution doctrine this gate composes.
+
+version: 0.1.0
+domain: API Contract
+constitution_min_version: 0.6.0
+doctrine_refs:
+- 03-architecture-doctrine
+- 05-testing-doctrine
+- 09-documentation-doctrine
+rubric:
+- backward compatibility
+- spec fidelity
+- versioning correctness
+- consumer safety
+rules:
+- id: api.spec-source-of-truth
+  doctrine: 03-architecture
+  category: contract
+  severity: major
+  check: auto
+  tool: spec (OpenAPI/proto/SDL) validates and matches implementation
+  pass: A machine-readable spec is the source of truth and validates.
+- id: api.breaking-change-detected
+  doctrine: 03-architecture
+  category: contract
+  severity: blocker
+  check: auto
+  tool: breaking-change detector on spec diff
+  pass: Breaking changes are detected on every spec change.
+- id: api.backward-compat
+  doctrine: 03-architecture
+  category: contract
+  severity: blocker
+  check: auto
+  tool: no breaking change without a major version bump
+  pass: Backward compatibility preserved unless a major version bumps.
+- id: api.consumer-contract-tests
+  doctrine: 05-testing
+  category: contract
+  severity: major
+  check: auto
+  tool: consumer-driven contract tests
+  pass: Published consumers still pass their contracts.
+- id: api.semver
+  doctrine: 03-architecture
+  category: versioning
+  severity: major
+  check: auto
+  tool: version reflects the change type
+  pass: Semver reflects the actual change.
+- id: api.deprecation-policy
+  doctrine: 09-documentation-doctrine
+  category: governance
+  severity: minor
+  check: review
+  tool: deprecation announced with timeline and sunset
+  pass: Deprecations follow the policy.
+- id: api.error-contract
+  doctrine: 09-documentation-doctrine
+  category: clarity
+  severity: minor
+  check: review
+  tool: error shapes documented and consistent
+  pass: The error contract is documented and consistent.

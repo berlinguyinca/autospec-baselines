@@ -1,0 +1,50 @@
+# migration.rules.yaml -- machine-readable gate registry for Database Migration Safety
+# check: auto (deterministic, blocks) | judge (independent model critic + rubric) | review (human)
+# severity: blocker | major | minor. doctrine = constitution doctrine this gate composes.
+
+version: 0.1.0
+domain: Database Migration Safety
+constitution_min_version: 0.6.0
+doctrine_refs:
+- 03-architecture-doctrine
+- 05-testing-doctrine
+rubric:
+- reversibility
+- availability
+- data safety
+rules:
+- id: mig.expand-contract
+  doctrine: 03-architecture
+  category: safety
+  severity: blocker
+  check: auto
+  tool: assert no destructive step in the same release as its dependents (expand/contract)
+  pass: Migrations use expand/contract; no destructive change coupled to running code.
+- id: mig.reversible
+  doctrine: 03-architecture
+  category: reversibility
+  severity: major
+  check: auto
+  tool: down-migration or documented rollback exists
+  pass: Every migration is reversible or has a documented rollback.
+- id: mig.online-safe
+  doctrine: 05-testing
+  category: availability
+  severity: major
+  check: review
+  tool: no long-held locks; online-safe on large tables
+  pass: Migrations are online-safe (no blocking locks).
+- id: mig.backfill-batched
+  doctrine: 05-testing
+  category: data-safety
+  severity: major
+  check: auto
+  tool: backfills batched and idempotent
+  pass: Backfills are batched and idempotent.
+- id: mig.tested-prod-like
+  doctrine: 05-testing
+  category: data-safety
+  severity: major
+  check: auto
+  tool: migration tested against prod-like volume
+  pass: Migrations are tested at prod-like scale.

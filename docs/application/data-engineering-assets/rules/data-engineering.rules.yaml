@@ -1,0 +1,66 @@
+# data-engineering.rules.yaml -- machine-readable gate registry for Data Engineering
+# check: auto (deterministic, blocks) | judge (independent model critic + rubric) | review (human)
+# severity: blocker | major | minor. doctrine = constitution doctrine this gate composes.
+
+version: 0.1.0
+domain: Data Engineering
+constitution_min_version: 0.6.0
+doctrine_refs:
+- 03-architecture-doctrine
+- 04-engineering-doctrine
+- 10-analytics-reporting-visualization
+rubric:
+- correctness
+- reproducibility (idempotent/replayable)
+- contract stability
+- observability
+rules:
+- id: de.idempotent-replayable
+  doctrine: 04-engineering
+  category: correctness
+  severity: blocker
+  check: auto
+  tool: run job twice on same input; assert identical result
+  pass: Jobs are idempotent and replayable; re-runs do not double-count.
+- id: de.data-contract
+  doctrine: 03-architecture
+  category: contract
+  severity: major
+  check: auto
+  tool: schema enforced at boundary + contract test
+  pass: Producer/consumer contracts exist and are enforced.
+- id: de.schema-compat
+  doctrine: 03-architecture
+  category: contract
+  severity: blocker
+  check: auto
+  tool: schema-diff compatibility check
+  pass: Schema changes are backward-compatible or versioned; consumers still parse.
+- id: de.backfill-reconciles
+  doctrine: 10-analytics-reporting-visualization
+  category: correctness
+  severity: major
+  check: auto
+  tool: backfill totals reconcile to expected
+  pass: Backfills are idempotent and reconcile; no silent row loss.
+- id: de.quality-assertions
+  doctrine: 10-analytics-reporting-visualization
+  category: data-quality
+  severity: major
+  check: auto
+  tool: row-count/null/referential assertions
+  pass: Quality assertions catch silent data loss before downstream use.
+- id: de.freshness-sla
+  doctrine: 12-operations-diagnostics-doctrine
+  category: observability
+  severity: major
+  check: auto
+  tool: SLA monitor; late/failed run alerts
+  pass: Pipeline SLAs are monitored; staleness alerts before reliance.
+- id: de.lineage
+  doctrine: 10-analytics-reporting-visualization
+  category: observability
+  severity: minor
+  check: review
+  tool: lineage source->transform->output recorded
+  pass: Lineage is recorded end to end.

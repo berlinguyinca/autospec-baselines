@@ -1,0 +1,66 @@
+# infrastructure.rules.yaml -- machine-readable gate registry for Infrastructure / IaC
+# check: auto (deterministic, blocks) | judge (independent model critic + rubric) | review (human)
+# severity: blocker | major | minor. doctrine = constitution doctrine this gate composes.
+
+version: 0.1.0
+domain: Infrastructure / IaC
+constitution_min_version: 0.6.0
+doctrine_refs:
+- 12-operations-diagnostics-doctrine
+- 11-security-privacy-doctrine
+- 03-architecture-doctrine
+rubric:
+- reproducibility
+- least privilege
+- policy compliance
+- blast-radius control
+rules:
+- id: infra.reproducible-apply
+  doctrine: 12-operations-diagnostics-doctrine
+  category: reliability
+  severity: major
+  check: auto
+  tool: re-plan shows no unexpected drift; apply is idempotent
+  pass: Apply is reproducible and idempotent.
+- id: infra.drift-detection
+  doctrine: 12-operations-diagnostics-doctrine
+  category: reliability
+  severity: major
+  check: auto
+  tool: scheduled drift detection with alerting
+  pass: Drift is detected and alerted.
+- id: infra.least-privilege-iam
+  doctrine: 11-security-privacy-doctrine
+  category: security
+  severity: blocker
+  check: auto
+  tool: IAM policy analysis; no wildcard admin
+  pass: IAM is least-privilege; no wildcard admin.
+- id: infra.policy-as-code
+  doctrine: 11-security-privacy-doctrine
+  category: governance
+  severity: major
+  check: auto
+  tool: OPA/Conftest guardrails before apply
+  pass: Policy-as-code checks pass.
+- id: infra.no-hardcoded-secrets
+  doctrine: 11-security-privacy-doctrine
+  category: security
+  severity: blocker
+  check: auto
+  tool: secret scanner on IaC
+  pass: No secrets hardcoded in IaC.
+- id: infra.state-managed
+  doctrine: 12-operations-diagnostics-doctrine
+  category: reliability
+  severity: major
+  check: review
+  tool: remote, locked, versioned state
+  pass: State is remote, locked, and versioned.
+- id: infra.tagged-reversible
+  doctrine: 03-architecture
+  category: governance
+  severity: minor
+  check: auto
+  tool: ownership/cost tags present; rollback path documented
+  pass: Resources are tagged; a destroy/rollback path is known.

@@ -15,6 +15,10 @@ Apply this pack when PostgreSQL schema, queries, migrations, permissions, backup
 - Transaction boundaries for multi-step writes.
 - Least-privilege database roles.
 - Backup, restore, and migration rollback expectations.
+- Schema changes use expand/contract: add-and-backfill first, switch reads, then remove — no
+  destructive step in the same release as code that still needs the old shape.
+- Migrations are online-safe on large tables (no long-held locks) and tested at prod-like volume.
+- Backfills are batched and idempotent.
 
 ## Recommended Capabilities
 
@@ -83,3 +87,12 @@ Describe the data model or query behavior.
 - Integrity rules are enforced by the database where appropriate
 - Sensitive access respects role boundaries
 ```
+
+---
+
+## Migration Gates Registry
+
+Machine-readable migration-safety gates in
+[`postgres-assets/rules/migration.rules.yaml`](postgres-assets/rules/migration.rules.yaml):
+expand/contract sequencing, reversibility, online-safety on large tables, and batched
+idempotent backfills.

@@ -1,0 +1,63 @@
+{
+  "id": "technology/infrastructure",
+  "name": "Infrastructure / IaC Baseline Pack",
+  "category": "technology",
+  "version": "0.1.0",
+  "purpose": "Expectations for provisioning infrastructure as code, so applies are reproducible, least-privilege, policy-compliant, and blast-radius-controlled.",
+  "whenToApply": [
+    "The change provisions or modifies infrastructure via code (Terraform, Pulumi, CloudFormation, Kubernetes manifests).",
+    "IAM, networking, or stateful resources are affected."
+  ],
+  "extends": [],
+  "constitutionReferences": [
+    "12-operations-diagnostics-doctrine",
+    "11-security-privacy-doctrine",
+    "03-architecture-doctrine"
+  ],
+  "requiredCapabilities": [
+    "Reproducible, idempotent apply: plan is reviewed and applied without manual drift.",
+    "Drift detection between declared and actual state, with alerting.",
+    "Least-privilege IAM: no wildcard admin; scoped roles and policies.",
+    "Policy-as-code checks (e.g. OPA/Conftest) enforce guardrails before apply.",
+    "No hardcoded secrets in IaC; secrets sourced from a manager.",
+    "Remote, locked, versioned state."
+  ],
+  "recommendedCapabilities": [
+    "Environment parity via modules.",
+    "Cost tagging for attribution.",
+    "Automated plan on PR with human approval to apply.",
+    "Blast-radius limits (per-environment isolation, staged rollout)."
+  ],
+  "metadataRequirements": [
+    "Resource inventory with owners and environments.",
+    "IAM policy inventory.",
+    "State backend and locking configuration.",
+    "Cost/ownership tags."
+  ],
+  "qualityGates": [
+    "Apply is reproducible and idempotent; a re-plan shows no unexpected drift.",
+    "Policy-as-code checks pass; no wildcard-admin IAM.",
+    "No secrets are hardcoded (scanner passes).",
+    "State is remote, locked, and versioned.",
+    "Resources are tagged for ownership and cost; a destroy/rollback path is known."
+  ],
+  "testingExpectations": [
+    "Plan review and policy checks in CI.",
+    "Drift detection on a schedule.",
+    "Secret scanning on IaC.",
+    "Environment smoke checks after apply."
+  ],
+  "documentationExpectations": [
+    "Document the resource inventory, IAM model, and state backend.",
+    "Document apply/rollback runbooks.",
+    "Document environment topology and blast-radius boundaries."
+  ],
+  "implementationIssueTemplates": [
+    {
+      "name": "Provision or Change Infrastructure",
+      "description": "Modify infrastructure via code under the IaC gates.",
+      "template": "## Goal\nDescribe the resource change and environments affected.\n\n## Baseline Packs\n- technology/infrastructure\n\n## Required Evidence\n- Reviewed plan; policy-as-code pass\n- Least-privilege IAM diff\n- Secret scan clean\n- Rollback/destroy path\n\n## Acceptance Criteria\n- Reproducible apply, no unexpected drift\n- Policies pass; no wildcard admin\n- State remote/locked; tagged"
+    }
+  ],
+  "conflictsWith": []
+}
