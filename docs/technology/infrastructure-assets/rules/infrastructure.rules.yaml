@@ -58,7 +58,7 @@ rules:
   tool: remote, locked, versioned state
   pass: State is remote, locked, and versioned.
 - id: infra.tagged-reversible
-  doctrine: 03-architecture
+  doctrine: 03-architecture-doctrine
   category: governance
   severity: minor
   check: auto

@@ -28,14 +28,14 @@ rules:
   tool: budgets and spend-anomaly alerts
   pass: Budgets and anomaly alerts are in place.
 - id: cost.right-sized
-  doctrine: 03-architecture
+  doctrine: 03-architecture-doctrine
   category: efficiency
   severity: minor
   check: review
   tool: resources right-sized; idle waste flagged
   pass: Resources are right-sized; idle waste is flagged.
 - id: cost.efficiency-in-design
-  doctrine: 03-architecture
+  doctrine: 03-architecture-doctrine
   category: efficiency
   severity: minor
   check: review

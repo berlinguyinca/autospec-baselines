@@ -10,7 +10,8 @@ Checks, for every docs/**/*.pack.json:
 
 Also validates every docs/**/web-assets/**/tokens.json against the vendored
 DTCG schema (schemas/dtcg-format-2025.10.json), every docs/**/*.rules.yaml gate
-registry (parses; every rule has an id and a check in auto|judge|vlm|review),
+registry (parses; every rule has an id, a check in auto|judge|vlm|review, and a
+resolvable per-rule doctrine when --constitution-dir is given),
 and that relative links inside pack docs resolve.
 
 Exit 0 = all good; 1 = findings; 2 = environment/usage error.
@@ -140,6 +141,11 @@ def main():
                 for r in rules:
                     if not isinstance(r, dict) or not r.get("id") or r.get("check") not in ("auto", "judge", "vlm", "review"):
                         find(f"{rel}: rule {r.get('id') if isinstance(r, dict) else r!r} needs an id and check in auto|judge|vlm|review")
+                        continue
+                    rule_doc = r.get("doctrine")
+                    if rule_doc and args.constitution_dir and not os.path.isfile(
+                            os.path.join(args.constitution_dir, "docs", f"{rule_doc}.md")):
+                        find(f"{rel}: rule {r['id']}: doctrine '{rule_doc}' does not resolve in {args.constitution_dir}/docs")
                 if len(findings) == before:
                     print(f"ok: {rel}")
 
