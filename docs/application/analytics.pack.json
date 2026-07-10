@@ -55,7 +55,7 @@
   ],
   "documentationExpectations": [
     "Publish the metric catalog / semantic layer.",
-    "Document lineage, caveats, and sampling.",
+    "Document lineage, caveats, and sampling plainly enough for non-engineers.",
     "Record the question and method behind consequential analyses.",
     "Document dashboard purpose, owner, audience, and refresh cadence."
   ],
@@ -63,7 +63,7 @@
     {
       "name": "Add Metric or Analysis",
       "description": "Define a metric or produce an analysis under the honesty and quality gates.",
-      "template": "## Goal\nDescribe the metric/analysis and the decision it supports.\n\n## Baseline Packs\n- application/analytics\n\n## Required Evidence\n- Metric definition in the semantic layer\n- Data-quality assertions pass\n- Statistical-honesty check on any chart\n- Permission review\n- Independent methodology review for consequential findings\n\n## Acceptance Criteria\n- Metric traces to one definition; users can identify formula, grain, and refresh cadence\n- Freshness/quality gates pass\n- Charts honest and re-theme\n- Method reviewed"
+      "template": "## Goal\nDescribe the metric/analysis and the decision it supports.\n\n## Baseline Packs\n- application/analytics\n\n## Required Evidence\n- Metric definition in the semantic layer\n- Data-quality assertions pass\n- Statistical-honesty check on any chart\n- Permission review\n- Independent methodology review for consequential findings\n\n## Acceptance Criteria\n- Metric traces to one definition; users can identify formula, grain, and refresh cadence\n- Freshness/quality gates pass\n- Critical values reconcile with source data\n- Dashboard communicates caveats and filters\n- Charts honest and re-theme\n- Method reviewed"
     },
     {
       "name": "Modify Analytical Pipeline",
@@ -71,5 +71,14 @@
       "template": "## Change\nDescribe the source, transformation, or output change.\n\n## Baseline Packs\n- application/analytics\n\n## Required Evidence\n- Downstream impact review\n- Before/after reconciliation\n- Backfill or migration plan\n\n## Acceptance Criteria\n- Existing consumers are not silently broken\n- Historical data handling is documented\n- Monitoring covers the changed path"
     }
   ],
-  "conflictsWith": []
+  "conflictsWith": [],
+  "uiUxExpectations": [
+    "Visualizations must label units, time ranges, filters, and aggregation level.",
+    "Dashboards should highlight stale, incomplete, or partial data.",
+    "Users should be able to trace important numbers back to definitions.",
+    "Avoid chart types that obscure comparison or uncertainty."
+  ],
+  "aiAssistantExpectations": [
+    "If AI summarizes analytics, it must cite underlying data, preserve caveats, avoid unsupported causal claims, and distinguish observed values from inferred interpretations."
+  ]
 }

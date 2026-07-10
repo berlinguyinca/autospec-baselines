@@ -61,7 +61,7 @@ Apply this pack when correctness, freshness, lineage, and interpretability of an
 ## Documentation Expectations
 
 - Publish the metric catalog / semantic layer.
-- Document lineage, caveats, and sampling.
+- Document lineage, caveats, and sampling plainly enough for non-engineers.
 - Record the question and method behind consequential analyses.
 - Document dashboard purpose, owner, audience, and refresh cadence.
 
@@ -74,7 +74,8 @@ Apply this pack when correctness, freshness, lineage, and interpretability of an
 
 ## AI Assistant Expectations
 
-If AI summarizes analytics, it must cite underlying data, preserve caveats, avoid unsupported causal claims, and distinguish observed values from inferred interpretations.
+- If AI summarizes analytics, it must cite underlying data, preserve caveats, avoid unsupported
+  causal claims, and distinguish observed values from inferred interpretations.
 
 ## Implementation Issue Templates
 
@@ -97,6 +98,8 @@ Describe the metric/analysis and the decision it supports.
 ## Acceptance Criteria
 - Metric traces to one definition; users can identify formula, grain, and refresh cadence
 - Freshness/quality gates pass
+- Critical values reconcile with source data
+- Dashboard communicates caveats and filters
 - Charts honest and re-theme
 - Method reviewed
 ```

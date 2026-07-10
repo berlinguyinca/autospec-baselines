@@ -128,10 +128,12 @@ def main():
                 if not isinstance(rules, list) or not rules:
                     find(f"{rel}: no rules[] list")
                     continue
+                before = len(findings)
                 for r in rules:
                     if not isinstance(r, dict) or not r.get("id") or r.get("check") not in ("auto", "judge", "vlm", "review"):
                         find(f"{rel}: rule {r.get('id') if isinstance(r, dict) else r!r} needs an id and check in auto|judge|vlm|review")
-                print(f"ok: {rel}")
+                if len(findings) == before:
+                    print(f"ok: {rel}")
 
     link_rx = re.compile(r"\]\(([^)#:]+)\)")
     for md_path in sorted(glob.glob(os.path.join(REPO, "docs", "**", "*.md"), recursive=True)):
