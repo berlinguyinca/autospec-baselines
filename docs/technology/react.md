@@ -60,7 +60,8 @@ Apply this pack when React components, hooks, context, routing, or React-based f
 
 ## AI Assistant Expectations
 
-If AI writes or modifies React code, it should preserve existing component patterns, avoid introducing unnecessary state libraries, and verify behavior through user-visible tests.
+- If AI writes or modifies React code, it should preserve existing component patterns, avoid
+  introducing unnecessary state libraries, and verify behavior through user-visible tests.
 
 ## Implementation Issue Templates
 
@@ -83,3 +84,4 @@ Describe the UI behavior and user outcome.
 - UI remains accessible
 - Existing design patterns are reused
 ```
+

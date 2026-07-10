@@ -1,0 +1,68 @@
+{
+  "id": "technology/python",
+  "name": "Python Baseline Pack",
+  "category": "technology",
+  "version": "0.1.0",
+  "purpose": "Define expectations for Python services, libraries, scripts, data workflows, CLIs, and automation used in Autospec-managed projects.",
+  "whenToApply": [
+    "Apply this pack when Python is used for product code, backend services, data processing, scientific work, automation, or tests."
+  ],
+  "extends": [],
+  "constitutionReferences": [
+    "04-engineering-doctrine",
+    "05-testing-doctrine"
+  ],
+  "requiredCapabilities": [
+    "Explicit runtime version and dependency management.",
+    "Clear module boundaries and import structure.",
+    "Typed interfaces for important data structures and public functions.",
+    "Structured error handling for external IO and user inputs.",
+    "Repeatable test execution."
+  ],
+  "recommendedCapabilities": [
+    "Static type checking for production modules.",
+    "Formatting and linting conventions.",
+    "Dependency vulnerability review.",
+    "CLI entry points for operational scripts.",
+    "Structured logging for services and long-running jobs."
+  ],
+  "metadataRequirements": [
+    "Supported Python versions.",
+    "Package manager and lockfile policy.",
+    "Runtime environment assumptions.",
+    "Public module/API ownership.",
+    "External service and data dependencies."
+  ],
+  "qualityGates": [
+    "Tests pass from a clean checkout.",
+    "Dependency changes are justified and minimal.",
+    "Public functions validate inputs or document preconditions.",
+    "Long-running tasks handle interruption and retryable failure.",
+    "Secrets are not read from source-controlled files."
+  ],
+  "testingExpectations": [
+    "Unit tests for pure logic.",
+    "Integration tests for external boundaries where feasible.",
+    "Regression tests for bug fixes.",
+    "Fixture strategy for data-heavy tests."
+  ],
+  "documentationExpectations": [
+    "Document setup, test, and run commands.",
+    "Document configuration and environment variables.",
+    "Document public APIs, CLI usage, or operational jobs."
+  ],
+  "uiUxExpectations": [
+    "For Python CLIs, show clear help text, input validation errors, progress for long operations, and non-zero exits for failure."
+  ],
+  "aiAssistantExpectations": [
+    "If AI modifies Python code, it should preserve existing project tooling, avoid unrequested dependencies, and run the narrowest meaningful verification before broader checks."
+  ],
+  "implementationIssueTemplates": [
+    {
+      "name": "Add Python Capability",
+      "description": "Add a Python capability under the engineering quality gates.",
+      "template": "## Goal\nDescribe the Python module, service, script, or workflow.\n\n## Baseline Packs\n- technology/python\n\n## Required Evidence\n- Unit or integration tests\n- Type or lint result when configured\n- Setup/run documentation update\n\n## Acceptance Criteria\n- Behavior is covered by tests\n- Dependencies are documented and justified\n- Errors are handled at external boundaries"
+    }
+  ],
+  "conflictsWith": []
+}

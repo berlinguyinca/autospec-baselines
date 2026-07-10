@@ -55,11 +55,13 @@ Apply this pack when Playwright is used to verify web workflows, visual behavior
 
 ## UI/UX Expectations
 
-Playwright tests should validate the experience a user actually sees: labels, focus, navigation, responsive layout, and recoverable failure states.
+- Playwright tests should validate the experience a user actually sees: labels, focus,
+  navigation, responsive layout, and recoverable failure states.
 
 ## AI Assistant Expectations
 
-If AI authors Playwright tests, it should inspect the running UI or markup before selecting locators and should not mock away the behavior the test is meant to prove.
+- If AI authors Playwright tests, it should inspect the running UI or markup before selecting
+  locators and should not mock away the behavior the test is meant to prove.
 
 ## Implementation Issue Templates
 
@@ -82,3 +84,4 @@ Describe the workflow or regression to cover.
 - Test is independent and repeatable
 - Failure artifacts are available
 ```
+

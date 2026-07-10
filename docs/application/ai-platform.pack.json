@@ -1,0 +1,86 @@
+{
+  "id": "application/ai-platform",
+  "name": "AI Platform Baseline Pack",
+  "category": "application",
+  "version": "0.1.0",
+  "purpose": "Define expectations for products that expose AI capabilities as a primary feature, including assistants, agent systems, model gateways, prompt tooling, evaluation platforms, and AI workflow builders.",
+  "whenToApply": [
+    "Apply this pack when model behavior, prompt configuration, retrieval, tool use, evaluation, or AI safety materially affects user outcomes."
+  ],
+  "extends": [
+    "ai/openai-compatible",
+    "ai/rag",
+    "ai/mcp"
+  ],
+  "constitutionReferences": [
+    "07-ai-platform-doctrine",
+    "08-natural-language-application-interface",
+    "11-security-privacy-doctrine"
+  ],
+  "requiredCapabilities": [
+    "Clear separation between system policy, developer instructions, user input, retrieved context, and tool results.",
+    "Prompt and model configuration versioning.",
+    "Evaluation coverage for core tasks and known failure modes.",
+    "Audit trail for model calls that affect important decisions.",
+    "Abuse, injection, and data leakage mitigations."
+  ],
+  "recommendedCapabilities": [
+    "Offline replay of representative AI interactions.",
+    "Golden datasets for regression comparison.",
+    "Red-team scenarios for prompt injection, refusal bypass, and unsafe tool use.",
+    "Cost, latency, and quality dashboards.",
+    "Model fallback strategy with documented tradeoffs."
+  ],
+  "metadataRequirements": [
+    "Supported models and providers.",
+    "Prompt ownership and version identifiers.",
+    "Tool access boundaries.",
+    "Data retention, privacy, and logging policy.",
+    "Evaluation datasets and acceptance thresholds."
+  ],
+  "qualityGates": [
+    "System instructions cannot be overridden by ordinary user or retrieved content.",
+    "Tool calls require explicit schemas and least-privilege permissions.",
+    "Sensitive data is not included in prompts unless justified and documented.",
+    "Model outputs that drive actions are validated before execution.",
+    "Quality, latency, and cost expectations are measured for release-critical paths."
+  ],
+  "testingExpectations": [
+    "Regression evaluations for canonical tasks.",
+    "Safety tests for injection and data exfiltration attempts.",
+    "Tool-use tests covering allowed, denied, malformed, and failing calls.",
+    "Human review for high-impact assistant behavior changes."
+  ],
+  "documentationExpectations": [
+    "Document model/provider choices and fallback behavior.",
+    "Document prompt and tool contracts.",
+    "Document evaluation methodology and known limitations.",
+    "Document user-facing AI limitations without overstating reliability."
+  ],
+  "uiUxExpectations": [
+    "Show AI-generated content as generated, not authoritative by default.",
+    "Give users a way to correct, retry, stop, or inspect assistant work.",
+    "Make long-running AI work observable.",
+    "Preserve citations, provenance, or reasoning summaries when the workflow depends on source material."
+  ],
+  "aiAssistantExpectations": [
+    "Follow a stable instruction hierarchy.",
+    "Ask for clarification when ambiguity could cause harmful or irreversible outcomes.",
+    "Use tools only when needed and only within documented boundaries.",
+    "Report uncertainty and known gaps.",
+    "Avoid fabricating citations, actions, or verification evidence."
+  ],
+  "implementationIssueTemplates": [
+    {
+      "name": "Add AI Capability",
+      "description": "Add a governed AI capability with permissions, audit, and cost tracking.",
+      "template": "## Goal\nDescribe the AI capability and user outcome.\n\n## Baseline Packs\n- application/ai-platform\n\n## Required Evidence\n- Prompt/model configuration diff\n- Evaluation results for canonical tasks\n- Safety test results\n- Tool access review, if tools are used\n\n## Acceptance Criteria\n- Core task quality meets the documented threshold\n- Unsafe or unauthorized tool behavior is blocked\n- Data handling matches the documented policy\n- Known limitations are documented"
+    },
+    {
+      "name": "Change Prompt Or Model",
+      "description": "Change a prompt or model with evaluation and rollback evidence.",
+      "template": "## Change\nDescribe the prompt, provider, model, or parameter change.\n\n## Baseline Packs\n- application/ai-platform\n\n## Required Evidence\n- Before/after evaluation comparison\n- Cost and latency impact\n- Review of safety-sensitive scenarios\n\n## Acceptance Criteria\n- Quality does not regress on required evaluations\n- Tradeoffs are documented\n- Rollback path is clear"
+    }
+  ],
+  "conflictsWith": []
+}

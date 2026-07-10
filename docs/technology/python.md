@@ -55,11 +55,13 @@ Apply this pack when Python is used for product code, backend services, data pro
 
 ## UI/UX Expectations
 
-For Python CLIs, show clear help text, input validation errors, progress for long operations, and non-zero exits for failure.
+- For Python CLIs, show clear help text, input validation errors, progress for long operations,
+  and non-zero exits for failure.
 
 ## AI Assistant Expectations
 
-If AI modifies Python code, it should preserve existing project tooling, avoid unrequested dependencies, and run the narrowest meaningful verification before broader checks.
+- If AI modifies Python code, it should preserve existing project tooling, avoid unrequested
+  dependencies, and run the narrowest meaningful verification before broader checks.
 
 ## Implementation Issue Templates
 
@@ -82,3 +84,4 @@ Describe the Python module, service, script, or workflow.
 - Dependencies are documented and justified
 - Errors are handled at external boundaries
 ```
+

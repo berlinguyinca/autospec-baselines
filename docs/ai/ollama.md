@@ -60,7 +60,9 @@ Apply this pack when project behavior depends on Ollama model serving, local mod
 
 ## AI Assistant Expectations
 
-Assistants using Ollama must account for model-specific limits, avoid claiming hosted-model capabilities unless verified, and surface uncertainty when local model quality is lower than expected.
+- Assistants using Ollama must account for model-specific limits, avoid claiming hosted-model
+  capabilities unless verified, and surface uncertainty when local model quality is lower than
+  expected.
 
 ## Implementation Issue Templates
 
@@ -84,3 +86,4 @@ Describe the local model workflow.
 - Model behavior meets documented expectations
 - Setup instructions reproduce the local environment
 ```
+

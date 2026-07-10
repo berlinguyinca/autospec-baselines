@@ -1,0 +1,78 @@
+{
+  "id": "application/internal-tool",
+  "name": "Internal Tool Baseline Pack",
+  "category": "application",
+  "version": "0.1.0",
+  "purpose": "Define expectations for administrative, operational, support, moderation, back-office, and other tools used by trusted internal users.",
+  "whenToApply": [
+    "Apply this pack when the interface is not public-facing but can affect customer data, money movement, operational state, compliance, moderation, or production systems."
+  ],
+  "extends": [],
+  "constitutionReferences": [
+    "01-product-doctrine",
+    "06-ui-ux-doctrine",
+    "11-security-privacy-doctrine"
+  ],
+  "requiredCapabilities": [
+    "Role-based access control for privileged actions.",
+    "Audit logs for sensitive reads and writes.",
+    "Confirmation and recovery paths for destructive operations.",
+    "Clear environment and target-resource indicators.",
+    "Input validation and server-side authorization."
+  ],
+  "recommendedCapabilities": [
+    "Permission simulation or read-only preview modes.",
+    "Bulk action dry runs.",
+    "Operational runbooks linked from risky workflows.",
+    "Break-glass process with review.",
+    "Change history for important records."
+  ],
+  "metadataRequirements": [
+    "Internal user roles and privilege levels.",
+    "Sensitive actions and affected resources.",
+    "Audit retention expectations.",
+    "Escalation owner for failed or risky operations.",
+    "Production versus non-production environment rules."
+  ],
+  "qualityGates": [
+    "Unauthorized users cannot access privileged workflows.",
+    "Sensitive actions are audited with actor, target, timestamp, and result.",
+    "Bulk and destructive actions show scope before execution.",
+    "Production-impacting actions cannot be triggered accidentally.",
+    "Error messages help operators recover without leaking secrets."
+  ],
+  "testingExpectations": [
+    "Authorization tests for each privileged action.",
+    "Audit-log tests for sensitive actions.",
+    "End-to-end tests for common operational workflows.",
+    "Failure-mode tests for partial success, retries, and validation errors."
+  ],
+  "documentationExpectations": [
+    "Document operational purpose, user roles, and risky actions.",
+    "Document rollback or remediation steps.",
+    "Document audit fields and retention policy.",
+    "Keep runbooks close to the workflows they support."
+  ],
+  "uiUxExpectations": [
+    "Optimize for accurate repeated work, not marketing presentation.",
+    "Show dense but scannable information for operators.",
+    "Make environment, scope, and consequences unmistakable.",
+    "Provide filters, sorting, and search for large operational datasets."
+  ],
+  "aiAssistantExpectations": [
+    "If AI is used inside an internal tool, it must not execute privileged actions without explicit review, must summarize proposed changes before submission, and must preserve auditability of user versus assistant actions."
+  ],
+  "implementationIssueTemplates": [
+    {
+      "name": "Add Internal Workflow",
+      "description": "Add an internal operator workflow with permissions and audit.",
+      "template": "## Goal\nDescribe the operational workflow and user role.\n\n## Baseline Packs\n- application/internal-tool\n\n## Required Evidence\n- Authorization test\n- Audit-log test\n- Failure-state test\n- Runbook or operational documentation update\n\n## Acceptance Criteria\n- Only authorized users can perform the action\n- Sensitive actions are auditable\n- Operators can see target scope before execution"
+    },
+    {
+      "name": "Add Bulk Or Destructive Action",
+      "description": "Add a bulk or destructive action with preview, confirmation, and audit.",
+      "template": "## Action\nDescribe the bulk or destructive operation.\n\n## Baseline Packs\n- application/internal-tool\n\n## Required Evidence\n- Dry-run or preview evidence\n- Confirmation behavior\n- Rollback/remediation notes\n- Partial-failure handling test\n\n## Acceptance Criteria\n- Scope is visible before execution\n- Partial failures are recoverable\n- Audit trail records each affected target"
+    }
+  ],
+  "conflictsWith": []
+}

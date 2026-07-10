@@ -63,7 +63,9 @@ Apply this pack when the interface is not public-facing but can affect customer 
 
 ## AI Assistant Expectations
 
-If AI is used inside an internal tool, it must not execute privileged actions without explicit review, must summarize proposed changes before submission, and must preserve auditability of user versus assistant actions.
+- If AI is used inside an internal tool, it must not execute privileged actions without explicit
+  review, must summarize proposed changes before submission, and must preserve auditability of
+  user versus assistant actions.
 
 ## Implementation Issue Templates
 
@@ -108,3 +110,4 @@ Describe the bulk or destructive operation.
 - Partial failures are recoverable
 - Audit trail records each affected target
 ```
+

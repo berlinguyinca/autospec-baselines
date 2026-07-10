@@ -10,7 +10,8 @@ Apply this pack when model behavior, prompt configuration, retrieval, tool use, 
 
 ## Required Capabilities
 
-- Clear separation between system policy, developer instructions, user input, retrieved context, and tool results.
+- Clear separation between system policy, developer instructions, user input, retrieved context,
+  and tool results.
 - Prompt and model configuration versioning.
 - Evaluation coverage for core tasks and known failure modes.
 - Audit trail for model calls that affect important decisions.
@@ -59,7 +60,8 @@ Apply this pack when model behavior, prompt configuration, retrieval, tool use, 
 - Show AI-generated content as generated, not authoritative by default.
 - Give users a way to correct, retry, stop, or inspect assistant work.
 - Make long-running AI work observable.
-- Preserve citations, provenance, or reasoning summaries when the workflow depends on source material.
+- Preserve citations, provenance, or reasoning summaries when the workflow depends on source
+  material.
 
 ## AI Assistant Expectations
 
@@ -112,3 +114,4 @@ Describe the prompt, provider, model, or parameter change.
 - Tradeoffs are documented
 - Rollback path is clear
 ```
+

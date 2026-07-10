@@ -17,7 +17,8 @@ Apply this pack when PostgreSQL schema, queries, migrations, permissions, backup
 - Backup, restore, and migration rollback expectations.
 - Schema changes use expand/contract: add-and-backfill first, switch reads, then remove — no
   destructive step in the same release as code that still needs the old shape.
-- Migrations are online-safe on large tables (no long-held locks) and tested at prod-like volume.
+- Migrations are online-safe on large tables (no long-held locks) and tested at prod-like
+  volume.
 - Backfills are batched and idempotent.
 
 ## Recommended Capabilities
@@ -59,11 +60,13 @@ Apply this pack when PostgreSQL schema, queries, migrations, permissions, backup
 
 ## UI/UX Expectations
 
-Database-backed UI should show truthful states for pending writes, conflicts, stale reads, and partial failures.
+- Database-backed UI should show truthful states for pending writes, conflicts, stale reads, and
+  partial failures.
 
 ## AI Assistant Expectations
 
-If AI proposes SQL or migrations, it must explain data impact, identify locking and rollback considerations, and avoid destructive migration steps without explicit justification.
+- If AI proposes SQL or migrations, it must explain data impact, identify locking and rollback
+  considerations, and avoid destructive migration steps without explicit justification.
 
 ## Implementation Issue Templates
 

@@ -1,0 +1,68 @@
+{
+  "id": "ai/mcp",
+  "name": "MCP Baseline Pack",
+  "category": "ai",
+  "version": "0.1.0",
+  "purpose": "Define expectations for systems that expose or consume Model Context Protocol servers, tools, resources, prompts, or connected applications.",
+  "whenToApply": [
+    "Apply this pack when an AI assistant obtains context, invokes tools, or performs actions through MCP."
+  ],
+  "extends": [],
+  "constitutionReferences": [
+    "07-ai-platform-doctrine",
+    "11-security-privacy-doctrine"
+  ],
+  "requiredCapabilities": [
+    "Tool, resource, and prompt contracts with stable names and schemas.",
+    "Authentication and authorization boundaries for side-effectful tools.",
+    "Clear separation between read-only and write-capable operations.",
+    "Input validation and output shape guarantees.",
+    "Auditability for sensitive or mutating tool calls."
+  ],
+  "recommendedCapabilities": [
+    "Least-privilege tool grouping.",
+    "Dry-run support for risky write operations.",
+    "Versioned MCP contracts.",
+    "Capability discovery tests.",
+    "Human review gates for high-impact actions."
+  ],
+  "metadataRequirements": [
+    "MCP server name and ownership.",
+    "Tool list, side-effect classification, and required scopes.",
+    "Resource and prompt exposure policy.",
+    "Authentication method and secret handling.",
+    "Audit and retention expectations."
+  ],
+  "qualityGates": [
+    "Mutating tools cannot be invoked without proper authorization.",
+    "Tool schemas reject malformed or unsafe input.",
+    "Tool outputs do not leak secrets or unauthorized data.",
+    "Read-only tools remain side-effect free.",
+    "High-impact actions have confirmation, dry-run, or review controls."
+  ],
+  "testingExpectations": [
+    "Contract tests for tool schemas and resource discovery.",
+    "Authorization tests for restricted tools.",
+    "Side-effect tests for mutating tools.",
+    "Failure tests for unavailable upstream dependencies."
+  ],
+  "documentationExpectations": [
+    "Document each tool's purpose, inputs, outputs, side effects, and permission needs.",
+    "Document client setup and server configuration.",
+    "Document operational limits and unsafe-use examples."
+  ],
+  "uiUxExpectations": [
+    "If MCP actions are exposed in a UI, users should see what the assistant intends to do, which tool will be used, and what changed afterward."
+  ],
+  "aiAssistantExpectations": [
+    "Assistants using MCP must prefer read-only inspection before mutation, use the narrowest available tool, validate tool results, and report exactly what actions were taken."
+  ],
+  "implementationIssueTemplates": [
+    {
+      "name": "Add MCP Tool Or Server",
+      "description": "Expose or consume an MCP tool, resource, or server under the platform gates.",
+      "template": "## Goal\nDescribe the MCP capability and consumers.\n\n## Baseline Packs\n- ai/mcp\n\n## Required Evidence\n- Tool/resource contract\n- Authorization test\n- Side-effect classification\n- Audit behavior for mutating tools\n\n## Acceptance Criteria\n- Contract is discoverable and documented\n- Unauthorized access is blocked\n- Tool results are validated and safe to expose"
+    }
+  ],
+  "conflictsWith": []
+}
