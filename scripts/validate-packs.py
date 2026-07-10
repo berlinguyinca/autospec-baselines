@@ -129,7 +129,11 @@ def main():
                     find(f"{rel}: no rules[] list")
                     continue
                 before = len(findings)
-                for ref in (reg or {}).get("doctrine_refs") or []:
+                refs = (reg or {}).get("doctrine_refs") or []
+                if refs and not args.constitution_dir:
+                    print(f"note: {rel}: skipping {len(refs)} doctrine_refs checks "
+                          "(pass --constitution-dir to enable)")
+                for ref in refs:
                     if args.constitution_dir and not os.path.isfile(
                             os.path.join(args.constitution_dir, "docs", f"{ref}.md")):
                         find(f"{rel}: doctrine_refs '{ref}' does not resolve in {args.constitution_dir}/docs")

@@ -17,7 +17,6 @@ Apply this pack when PostgreSQL schema, queries, migrations, permissions, backup
 - Backup, restore, and migration rollback expectations.
 - Schema changes use expand/contract: add-and-backfill first, switch reads, then remove — no
   destructive step in the same release as code that still needs the old shape.
-- Every migration is reversible or ships with a documented rollback.
 - Migrations are online-safe on large tables (no long-held locks) and tested at prod-like volume.
 - Backfills are batched and idempotent.
 
