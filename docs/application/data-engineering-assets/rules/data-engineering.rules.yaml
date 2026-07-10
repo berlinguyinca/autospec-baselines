@@ -16,21 +16,21 @@ rubric:
 - observability
 rules:
 - id: de.idempotent-replayable
-  doctrine: 04-engineering
+  doctrine: 04-engineering-doctrine
   category: correctness
   severity: blocker
   check: auto
   tool: run job twice on same input; assert identical result
   pass: Jobs are idempotent and replayable; re-runs do not double-count.
 - id: de.data-contract
-  doctrine: 03-architecture
+  doctrine: 03-architecture-doctrine
   category: contract
   severity: major
   check: auto
   tool: schema enforced at boundary + contract test
   pass: Producer/consumer contracts exist and are enforced.
 - id: de.schema-compat
-  doctrine: 03-architecture
+  doctrine: 03-architecture-doctrine
   category: contract
   severity: blocker
   check: auto

@@ -14,35 +14,35 @@ rubric:
 - data safety
 rules:
 - id: mig.expand-contract
-  doctrine: 03-architecture
+  doctrine: 03-architecture-doctrine
   category: safety
   severity: blocker
   check: auto
   tool: assert no destructive step in the same release as its dependents (expand/contract)
   pass: Migrations use expand/contract; no destructive change coupled to running code.
 - id: mig.reversible
-  doctrine: 03-architecture
+  doctrine: 03-architecture-doctrine
   category: reversibility
   severity: major
   check: auto
   tool: down-migration or documented rollback exists
   pass: Every migration is reversible or has a documented rollback.
 - id: mig.online-safe
-  doctrine: 05-testing
+  doctrine: 05-testing-doctrine
   category: availability
   severity: major
   check: review
   tool: no long-held locks; online-safe on large tables
   pass: Migrations are online-safe (no blocking locks).
 - id: mig.backfill-batched
-  doctrine: 05-testing
+  doctrine: 05-testing-doctrine
   category: data-safety
   severity: major
   check: auto
   tool: backfills batched and idempotent
   pass: Backfills are batched and idempotent.
 - id: mig.tested-prod-like
-  doctrine: 05-testing
+  doctrine: 05-testing-doctrine
   category: data-safety
   severity: major
   check: auto

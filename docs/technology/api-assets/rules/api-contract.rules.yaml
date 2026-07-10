@@ -16,35 +16,35 @@ rubric:
 - consumer safety
 rules:
 - id: api.spec-source-of-truth
-  doctrine: 03-architecture
+  doctrine: 03-architecture-doctrine
   category: contract
   severity: major
   check: auto
   tool: spec (OpenAPI/proto/SDL) validates and matches implementation
   pass: A machine-readable spec is the source of truth and validates.
 - id: api.breaking-change-detected
-  doctrine: 03-architecture
+  doctrine: 03-architecture-doctrine
   category: contract
   severity: blocker
   check: auto
   tool: breaking-change detector on spec diff
   pass: Breaking changes are detected on every spec change.
 - id: api.backward-compat
-  doctrine: 03-architecture
+  doctrine: 03-architecture-doctrine
   category: contract
   severity: blocker
   check: auto
   tool: no breaking change without a major version bump
   pass: Backward compatibility preserved unless a major version bumps.
 - id: api.consumer-contract-tests
-  doctrine: 05-testing
+  doctrine: 05-testing-doctrine
   category: contract
   severity: major
   check: auto
   tool: consumer-driven contract tests
   pass: Published consumers still pass their contracts.
 - id: api.semver
-  doctrine: 03-architecture
+  doctrine: 03-architecture-doctrine
   category: versioning
   severity: major
   check: auto

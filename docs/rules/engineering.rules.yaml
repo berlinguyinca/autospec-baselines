@@ -18,70 +18,70 @@ rubric:
 - simplicity (not over-engineered / AI-boilerplate)
 rules:
 - id: eng.types-clean
-  doctrine: 04-engineering
+  doctrine: 04-engineering-doctrine
   category: correctness
   severity: blocker
   check: auto
   tool: static type checker / compiler
   pass: No type or compile errors.
 - id: eng.tests-pass
-  doctrine: 05-testing
+  doctrine: 05-testing-doctrine
   category: correctness
   severity: blocker
   check: auto
   tool: full test suite (run serially where side effects exist)
   pass: All tests pass; suite is deterministic.
 - id: eng.coverage-threshold
-  doctrine: 05-testing
+  doctrine: 05-testing-doctrine
   category: correctness
   severity: major
   check: auto
   tool: coverage report vs threshold
   pass: Changed logic is covered to the agreed threshold.
 - id: eng.critical-logic-hardened
-  doctrine: 05-testing
+  doctrine: 05-testing-doctrine
   category: correctness
   severity: major
   check: auto
   tool: mutation or property-based tests on core logic
   pass: Critical logic has mutation or property tests, not just examples.
 - id: eng.boundary-respect
-  doctrine: 03-architecture
+  doctrine: 03-architecture-doctrine
   category: architecture
   severity: major
   check: review
   tool: dependency-graph check + reviewer
   pass: Change respects module/service boundaries; no new cross-boundary dependency without an ADR.
 - id: eng.adr-for-significant
-  doctrine: 03-architecture
+  doctrine: 03-architecture-doctrine
   category: architecture
   severity: major
   check: review
   tool: ADR presence check
   pass: Significant architectural decisions are recorded in an ADR.
 - id: eng.dependency-rationale
-  doctrine: 04-engineering
+  doctrine: 04-engineering-doctrine
   category: supply-chain
   severity: major
   check: review
   tool: dependency policy review (maintenance, license, security, fit)
   pass: New dependencies include rationale and alternatives considered.
 - id: eng.small-reversible
-  doctrine: 04-engineering
+  doctrine: 04-engineering-doctrine
   category: process
   severity: minor
   check: review
   tool: diff-size / reviewability heuristic
   pass: Large changes are split into reviewable, reversible units.
 - id: eng.no-self-approval
-  doctrine: 04-engineering
+  doctrine: 04-engineering-doctrine
   category: governance
   severity: blocker
   check: review
   tool: the actor that generated the change is not its sole approver
   pass: Generated code is judged by tests plus an independent reviewer/critic, never self-certified.
 - id: eng.non-regression
-  doctrine: 05-testing
+  doctrine: 05-testing-doctrine
   category: governance
   severity: blocker
   check: auto
