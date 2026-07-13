@@ -1,0 +1,47 @@
+id: application/internal-tool
+title: Internal Tool Baseline
+version: 0.1.0
+type: application
+summary: Operational tools for administrators, staff, or support teams.
+applies_when: {application_types: [internal-tool], technologies: [], profiles: [internal-tool]}
+inherits: []
+requires: []
+conflicts_with: []
+capabilities:
+  required:
+    - admin settings
+    - permissions
+    - audit logs
+    - import/export
+    - search/filtering
+    - bulk operations where appropriate
+    - workflow status
+    - support/feedback flow
+  recommended:
+    - saved filters
+    - operational dashboards
+metadata_required: [permission-model, settings-registry, capability-registry]
+rules:
+  - id: baseline.internal_tool.audit_permissions.required
+    rule_id: baseline.internal_tool.audit_permissions.required
+    title: Internal tools require permissions and audit logs
+    summary: Administrative actions need permission boundaries and audit evidence.
+    source: {baseline: application/internal-tool, document: docs/application/internal-tool.md, section: Required Capabilities}
+    category: governance
+    severity: required
+    maturity: {level: enterprise}
+    applies_when: {application_types: [internal-tool], profiles: [internal-tool], technologies: [], repo_conditions: []}
+    check: {type: required_metadata, expected: {metadata: permission-model}}
+    evidence_required: [permission model and audit-log docs]
+    acceptance_criteria: [Administrative operations have permissions and audit posture.]
+    metadata_required: [permission-model]
+    quality_gates: [Bulk/destructive operations are permissioned and auditable.]
+    remediation: {hint: Add permission model and audit-log metadata for internal tools., suggested_issue_title: "feat: add internal tool permissions and audit logs", suggested_labels: [autospec:governance]}
+    risk: {level: high, requires_human_review: true, requires_architecture_review: true}
+quality_gates:
+  - Administrative actions are permissioned.
+  - Import/export behavior is documented and tested.
+issue_templates:
+  - id: add-internal-tool-controls
+    title: Add internal tool governance controls
+    labels: [autospec:governance]

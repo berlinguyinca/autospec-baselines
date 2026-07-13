@@ -1,0 +1,67 @@
+id: application/ai-platform
+title: AI Platform Baseline
+version: 0.1.0
+type: application
+summary: Product-level AI behavior, provider governance, agent/tool posture, and usage visibility.
+applies_when: {application_types: [web, service, internal-tool], technologies: [], profiles: [ai-platform]}
+inherits: []
+requires: [ai/openai-compatible, ai/rag, ai/mcp]
+conflicts_with: []
+capabilities:
+  required:
+    - provider abstraction
+    - OpenAI-compatible provider
+    - Ollama/local provider support
+    - agent registry
+    - tool registry
+    - memory model
+    - RAG
+    - AI settings/admin page
+    - token usage tracking
+    - cost tracking
+    - usage dashboard
+    - MCP registry
+  recommended:
+    - AI evaluation fixtures
+    - prompt/version registry
+metadata_required: [ai-capabilities, mcp-registry, settings-registry]
+rules:
+  - id: baseline.ai_platform.provider_settings.required
+    rule_id: baseline.ai_platform.provider_settings.required
+    title: AI provider settings are required
+    summary: AI products must expose provider, model, key-reference, and endpoint configuration.
+    source: {baseline: application/ai-platform, document: docs/application/ai-platform.md, section: Required Capabilities}
+    category: ai
+    severity: required
+    maturity: {level: production}
+    applies_when: {application_types: [], profiles: [ai-platform], technologies: [], repo_conditions: [ai_enabled]}
+    check: {type: required_setting, expected: {keywords: [ai, provider, model]}}
+    evidence_required: [settings registry or admin settings surface]
+    acceptance_criteria: [Operators can inspect configured AI providers without exposing secrets.]
+    metadata_required: [settings-registry, ai-capabilities]
+    quality_gates: [Secret values are references only.]
+    remediation: {hint: Add AI provider settings metadata and UI/admin docs., suggested_issue_title: "feat: add AI provider settings", suggested_labels: [autospec:ai]}
+    risk: {level: medium, requires_human_review: true, requires_architecture_review: false}
+  - id: baseline.ai_platform.usage_tracking.required
+    rule_id: baseline.ai_platform.usage_tracking.required
+    title: AI usage tracking is required
+    summary: Multi-user AI systems should track token usage, cost, and workflow usage.
+    source: {baseline: application/ai-platform, document: docs/application/ai-platform.md, section: Required Capabilities}
+    category: ai
+    severity: required
+    maturity: {level: production}
+    applies_when: {application_types: [], profiles: [ai-platform], technologies: [], repo_conditions: [multi_user]}
+    check: {type: required_ai_capability, expected: {id: usage-tracking}}
+    evidence_required: [usage dashboard or report metadata]
+    acceptance_criteria: [Token and cost usage are visible to operators.]
+    metadata_required: [ai-capabilities]
+    quality_gates: [Usage data avoids leaking prompts or secrets.]
+    remediation: {hint: Add token/cost tracking and a usage dashboard capability., suggested_issue_title: "feat: add AI usage dashboard", suggested_labels: [autospec:ai, autospec:reporting]}
+    risk: {level: medium, requires_human_review: true, requires_architecture_review: false}
+quality_gates:
+  - AI settings use secret references only.
+  - Tool and agent registries describe side effects.
+issue_templates:
+  - id: add-ai-settings
+    title: Add AI provider settings and usage tracking
+    labels: [autospec:ai]
