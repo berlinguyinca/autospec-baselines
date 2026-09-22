@@ -1,1 +1,4 @@
 .omx/
+.ci-venv/
+.constitution/
+constitution.tar.gz
