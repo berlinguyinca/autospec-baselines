@@ -1,0 +1,48 @@
+id: application/scientific
+title: Scientific Application Baseline
+version: 0.1.0
+type: application
+summary: Scientific data import, validation, provenance, reproducible workflows, QC, and reports.
+applies_when: {application_types: [scientific, data], technologies: [python], profiles: [scientific]}
+inherits: []
+requires: [technology/python]
+conflicts_with: []
+capabilities:
+  required:
+    - data import
+    - data validation
+    - provenance
+    - analysis workflows
+    - QC metrics
+    - visualizations
+    - report generation
+    - reproducibility metadata
+    - audit trail where relevant
+  recommended:
+    - environment export
+    - deterministic sample fixtures
+metadata_required: [data-surface, workflow-map, domain-model]
+rules:
+  - id: baseline.scientific.provenance.required
+    rule_id: baseline.scientific.provenance.required
+    title: Scientific provenance is required
+    summary: Scientific workflows must track input sources, transformations, and output provenance.
+    source: {baseline: application/scientific, document: docs/application/scientific.md, section: Required Capabilities}
+    category: data
+    severity: required
+    maturity: {level: production}
+    applies_when: {application_types: [scientific], profiles: [scientific], technologies: [], repo_conditions: []}
+    check: {type: required_metadata, expected: {metadata: workflow-map}}
+    evidence_required: [workflow map or provenance docs]
+    acceptance_criteria: [Outputs can be traced back to inputs and workflow steps.]
+    metadata_required: [workflow-map, data-surface]
+    quality_gates: [Analysis output includes provenance metadata.]
+    remediation: {hint: Add provenance metadata to scientific workflows., suggested_issue_title: "feat: add scientific provenance metadata", suggested_labels: [autospec:scientific]}
+    risk: {level: medium, requires_human_review: true, requires_architecture_review: false}
+quality_gates:
+  - QC metrics are generated with analysis results.
+  - Reproducibility metadata is captured for important workflows.
+issue_templates:
+  - id: add-scientific-provenance
+    title: Add scientific workflow provenance
+    labels: [autospec:scientific]

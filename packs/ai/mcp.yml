@@ -1,0 +1,37 @@
+id: ai/mcp
+title: MCP Baseline
+version: 0.1.0
+type: ai
+summary: MCP registry, server configuration, permission, mutation approval, audit, secret-reference, and diagnostics baseline.
+applies_when: {application_types: [], technologies: [mcp], profiles: [ai-platform]}
+inherits: []
+requires: []
+conflicts_with: []
+capabilities:
+  required: [MCP registry, server configuration, role permissions, read-only default, mutation approval, audit logging, secret references only, diagnostic tools]
+  recommended: [tool schema examples]
+metadata_required: [mcp-registry, permission-model, settings-registry]
+rules:
+  - id: baseline.mcp.read_only_default.required
+    rule_id: baseline.mcp.read_only_default.required
+    title: MCP tools default to read-only
+    summary: MCP servers and tools must describe side effects and default to read-only behavior.
+    source: {baseline: ai/mcp, document: docs/ai/mcp.md, section: Required Capabilities}
+    category: mcp
+    severity: required
+    maturity: {level: autonomous}
+    applies_when: {application_types: [], profiles: [ai-platform], technologies: [mcp], repo_conditions: []}
+    check: {type: required_mcp_capability, expected: {id: read-only-default}}
+    evidence_required: [MCP registry with side-effect classification]
+    acceptance_criteria: [Mutation tools require explicit approval.]
+    metadata_required: [mcp-registry]
+    quality_gates: [Mutation approval and audit behavior are documented.]
+    remediation: {hint: Add MCP registry side-effect and approval metadata., suggested_issue_title: "feat: add MCP registry side-effect metadata", suggested_labels: [autospec:mcp]}
+    risk: {level: high, requires_human_review: true, requires_architecture_review: true}
+quality_gates:
+  - Mutating tools require explicit approval.
+  - MCP secrets are references only.
+issue_templates:
+  - id: add-mcp-registry
+    title: Add MCP registry metadata
+    labels: [autospec:mcp]

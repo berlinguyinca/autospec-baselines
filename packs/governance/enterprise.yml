@@ -1,0 +1,37 @@
+id: governance/enterprise
+title: Enterprise Governance Baseline
+version: 0.1.0
+type: governance
+summary: Enterprise posture for permissions, audit, admin settings, usage dashboards, backup/export, observability, incidents, and SLO/SLA docs.
+applies_when: {application_types: [], technologies: [], profiles: [enterprise, internal-tool]}
+inherits: []
+requires: []
+conflicts_with: []
+capabilities:
+  required: [RBAC/permissions, audit logs, admin settings, usage dashboards, backup/export, observability, incident reports]
+  recommended: [SLO/SLA docs where appropriate]
+metadata_required: [permission-model, settings-registry, capability-registry]
+rules:
+  - id: baseline.enterprise.audit_logs.required
+    rule_id: baseline.enterprise.audit_logs.required
+    title: Enterprise systems require audit logs
+    summary: Enterprise workflows need audit evidence for important administrative actions.
+    source: {baseline: governance/enterprise, document: docs/application/internal-tool.md, section: Quality Gates}
+    category: governance
+    severity: required
+    maturity: {level: enterprise}
+    applies_when: {application_types: [], profiles: [enterprise, internal-tool], technologies: [], repo_conditions: []}
+    check: {type: required_capability, expected: {id: audit-logs}}
+    evidence_required: [audit log capability or docs]
+    acceptance_criteria: [Important administrative actions are auditable.]
+    metadata_required: [capability-registry, permission-model]
+    quality_gates: [Audit evidence avoids secret/PII leakage.]
+    remediation: {hint: Add audit-log capability and retention docs., suggested_issue_title: "feat: add enterprise audit logs", suggested_labels: [autospec:governance]}
+    risk: {level: high, requires_human_review: true, requires_architecture_review: true}
+quality_gates:
+  - Permission model and admin settings are documented.
+  - Incident report path exists.
+issue_templates:
+  - id: add-enterprise-governance
+    title: Add enterprise governance controls
+    labels: [autospec:governance]

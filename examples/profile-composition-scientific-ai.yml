@@ -1,0 +1,13 @@
+profile:
+  id: scientific-ai
+  summary: Scientific analysis application with local/hosted AI and reproducible reporting.
+  application_type: scientific
+  maturity_target: production
+  packs:
+    - application/scientific
+    - application/ai-platform
+    - technology/python
+    - ai/rag
+    - ai/openai-compatible
+    - ai/ollama
+    - ai/mcp

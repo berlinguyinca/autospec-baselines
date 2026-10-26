@@ -1,0 +1,37 @@
+id: governance/gdpr
+title: GDPR Baseline
+version: 0.1.0
+type: governance
+summary: Privacy posture for PII inventory, retention/deletion, export/delete user data, consent, audit trail, and privacy docs.
+applies_when: {application_types: [], technologies: [], profiles: [gdpr]}
+inherits: []
+requires: []
+conflicts_with: []
+capabilities:
+  required: [PII inventory, retention/deletion policy, export/delete user data, audit trail, privacy documentation]
+  recommended: [consent where relevant]
+metadata_required: [data-surface, permission-model]
+rules:
+  - id: baseline.gdpr.retention_deletion.required
+    rule_id: baseline.gdpr.retention_deletion.required
+    title: GDPR retention and deletion policy is required
+    summary: User-data systems need documented retention, export, and deletion behavior.
+    source: {baseline: governance/gdpr, document: docs/application/internal-tool.md, section: Documentation Expectations}
+    category: privacy
+    severity: required
+    maturity: {level: enterprise}
+    applies_when: {application_types: [], profiles: [gdpr], technologies: [], repo_conditions: [user_data]}
+    check: {type: required_doc, expected: {keywords: [retention, deletion, export, privacy]}}
+    evidence_required: [privacy documentation]
+    acceptance_criteria: [Retention/export/delete behavior is documented.]
+    metadata_required: [data-surface]
+    quality_gates: [Privacy docs are current for user-data surfaces.]
+    remediation: {hint: Add privacy retention/export/delete documentation., suggested_issue_title: "docs: add GDPR retention and deletion policy", suggested_labels: [autospec:privacy]}
+    risk: {level: high, requires_human_review: true, requires_architecture_review: true}
+quality_gates:
+  - PII inventory and retention posture are reviewed for user-data changes.
+  - Export/delete workflows are validated or explicitly out of scope.
+issue_templates:
+  - id: add-gdpr-policy
+    title: Add GDPR privacy controls
+    labels: [autospec:privacy]

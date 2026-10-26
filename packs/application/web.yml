@@ -1,0 +1,67 @@
+id: application/web
+title: Web Application Baseline
+version: 0.1.0
+type: application
+summary: Browser-facing applications with responsive, accessible, diagnosable workflows.
+applies_when: {application_types: [web], technologies: [], profiles: [web]}
+inherits: []
+requires: [technology/playwright]
+conflicts_with: []
+capabilities:
+  required:
+    - in-app documentation center
+    - responsive UI
+    - settings area
+    - user/profile settings when authenticated
+    - OpenAI/Ollama-compatible AI assistant unless opted out
+    - AI settings page
+    - RAG over documentation
+    - Playwright responsive tests
+    - accessibility checks
+    - error/loading/empty states
+    - diagnostics for white-screen failures
+  recommended:
+    - design tokens
+    - route-level help
+    - performance budget
+metadata_required: [ui-surface, capability-registry, test-coverage-map]
+rules:
+  - id: baseline.web.in_app_docs.required
+    rule_id: baseline.web.in_app_docs.required
+    title: Web apps expose in-app documentation
+    summary: Browser apps should include a docs/help surface users can reach in context.
+    source: {baseline: application/web, document: docs/application/web.md, section: Required Capabilities}
+    category: documentation
+    severity: required
+    maturity: {level: production}
+    applies_when: {application_types: [web], profiles: [web], technologies: [], repo_conditions: []}
+    check: {type: required_capability, expected: {id: in-app-documentation}}
+    evidence_required: [route, UI surface, or capability entry]
+    acceptance_criteria: [Users can open documentation or help inside the app.]
+    metadata_required: [ui-surface, capability-registry]
+    quality_gates: [Docs surface is navigable and not raw JSON.]
+    remediation: {hint: Add a docs/help route and link it from navigation or settings., suggested_issue_title: "feat: add in-app documentation center", suggested_labels: [autospec:web, autospec:documentation]}
+    risk: {level: medium, requires_human_review: true, requires_architecture_review: false}
+  - id: baseline.web.responsive_playwright.required
+    rule_id: baseline.web.responsive_playwright.required
+    title: Web apps have responsive Playwright coverage
+    summary: Critical browser workflows should run across mobile, tablet, and desktop viewports.
+    source: {baseline: application/web, document: docs/application/web.md, section: Testing Expectations}
+    category: testing
+    severity: required
+    maturity: {level: production}
+    applies_when: {application_types: [web], profiles: [web], technologies: [], repo_conditions: []}
+    check: {type: required_tool, expected: {name: playwright}}
+    evidence_required: [Playwright config and responsive tests]
+    acceptance_criteria: [At least one critical workflow has mobile/tablet/desktop coverage.]
+    metadata_required: [test-coverage-map]
+    quality_gates: [No blank screen or console-error regression in critical flow.]
+    remediation: {hint: Add Playwright viewport coverage for a critical workflow., suggested_issue_title: "test: add Playwright responsive workflow coverage", suggested_labels: [autospec:web, autospec:testing]}
+    risk: {level: low, requires_human_review: false, requires_architecture_review: false}
+quality_gates:
+  - Critical flows cover loading, empty, error, and success states.
+  - Responsive and accessibility evidence exists before human-review promotion.
+issue_templates:
+  - id: add-web-docs
+    title: Add in-app documentation center
+    labels: [autospec:web, autospec:documentation]

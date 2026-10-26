@@ -1,0 +1,34 @@
+name: autospec-baselines
+version: 0.1.0
+schema: 1
+packs:
+  - id: application/web
+    file: packs/application/web.yml
+  - id: application/ai-platform
+    file: packs/application/ai-platform.yml
+  - id: application/analytics
+    file: packs/application/analytics.yml
+  - id: application/scientific
+    file: packs/application/scientific.yml
+  - id: application/internal-tool
+    file: packs/application/internal-tool.yml
+  - id: technology/react
+    file: packs/technology/react.yml
+  - id: technology/python
+    file: packs/technology/python.yml
+  - id: technology/postgres
+    file: packs/technology/postgres.yml
+  - id: technology/playwright
+    file: packs/technology/playwright.yml
+  - id: ai/rag
+    file: packs/ai/rag.yml
+  - id: ai/ollama
+    file: packs/ai/ollama.yml
+  - id: ai/openai-compatible
+    file: packs/ai/openai-compatible.yml
+  - id: ai/mcp
+    file: packs/ai/mcp.yml
+  - id: governance/enterprise
+    file: packs/governance/enterprise.yml
+  - id: governance/gdpr
+    file: packs/governance/gdpr.yml

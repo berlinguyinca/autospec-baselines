@@ -1,0 +1,37 @@
+id: technology/python
+title: Python Baseline
+version: 0.1.0
+type: technology
+summary: Python package, formatting, typing, testing, dependency, and CLI/script documentation conventions.
+applies_when: {application_types: [], technologies: [python], profiles: []}
+inherits: []
+requires: []
+conflicts_with: []
+capabilities:
+  required: [package management, formatting/linting standardization, test structure, dependency management, CLI/script documentation]
+  recommended: [typing where appropriate]
+metadata_required: [technology-registry, repository-inventory, test-coverage-map]
+rules:
+  - id: baseline.python.test_structure.required
+    rule_id: baseline.python.test_structure.required
+    title: Python tests are structured
+    summary: Python repositories should expose a clear test layout and focused command.
+    source: {baseline: technology/python, document: docs/technology/python.md, section: Testing Expectations}
+    category: testing
+    severity: required
+    maturity: {level: production}
+    applies_when: {application_types: [], profiles: [], technologies: [python], repo_conditions: []}
+    check: {type: required_test, expected: {keywords: [pytest, unittest, test]}}
+    evidence_required: [test directory or configured test command]
+    acceptance_criteria: [Focused Python tests are discoverable.]
+    metadata_required: [test-coverage-map]
+    quality_gates: [Test command is documented.]
+    remediation: {hint: Add or document Python test structure., suggested_issue_title: "test: document Python test structure", suggested_labels: [autospec:python, autospec:testing]}
+    risk: {level: low, requires_human_review: false, requires_architecture_review: false}
+quality_gates:
+  - Formatting/linting choice is documented.
+  - CLI/script entry points are documented.
+issue_templates:
+  - id: standardize-python-tooling
+    title: Standardize Python tooling metadata
+    labels: [autospec:python]

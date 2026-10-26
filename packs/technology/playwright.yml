@@ -1,0 +1,37 @@
+id: technology/playwright
+title: Playwright Baseline
+version: 0.1.0
+type: testing
+summary: Browser automation baseline for viewport matrix, screenshots, visual diff, tutorials, white-screen diagnostics, and keyboard navigation.
+applies_when: {application_types: [web], technologies: [playwright], profiles: [web]}
+inherits: []
+requires: []
+conflicts_with: []
+capabilities:
+  required: [required viewport matrix, screenshots, tutorial capture, white-screen diagnostics, keyboard navigation tests]
+  recommended: [visual diff where appropriate]
+metadata_required: [test-coverage-map, ui-surface]
+rules:
+  - id: baseline.playwright.viewport_matrix.required
+    rule_id: baseline.playwright.viewport_matrix.required
+    title: Playwright viewport matrix is required
+    summary: Web workflows should run across mobile, tablet, and desktop viewports.
+    source: {baseline: technology/playwright, document: docs/testing/playwright.md, section: Testing Expectations}
+    category: testing
+    severity: required
+    maturity: {level: production}
+    applies_when: {application_types: [web], profiles: [web], technologies: [playwright], repo_conditions: []}
+    check: {type: required_test, expected: {keywords: [mobile, tablet, desktop]}}
+    evidence_required: [viewport matrix in Playwright config/tests]
+    acceptance_criteria: [Critical workflow runs at three viewport classes.]
+    metadata_required: [test-coverage-map]
+    quality_gates: [White-screen diagnostics are captured on failure.]
+    remediation: {hint: Add Playwright projects or tests for viewport coverage., suggested_issue_title: "test: add Playwright viewport matrix", suggested_labels: [autospec:testing, autospec:web]}
+    risk: {level: low, requires_human_review: false, requires_architecture_review: false}
+quality_gates:
+  - Screenshots or traces are captured for critical failures.
+  - Keyboard navigation is covered where relevant.
+issue_templates:
+  - id: add-playwright-viewport-matrix
+    title: Add Playwright viewport matrix
+    labels: [autospec:testing]

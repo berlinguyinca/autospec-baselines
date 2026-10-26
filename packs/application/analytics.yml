@@ -1,0 +1,46 @@
+id: application/analytics
+title: Analytics Baseline
+version: 0.1.0
+type: application
+summary: Data querying, reporting, metric definitions, exports, and visualization standards.
+applies_when: {application_types: [analytics, data], technologies: [], profiles: [analytics]}
+inherits: []
+requires: []
+conflicts_with: []
+capabilities:
+  required:
+    - data querying
+    - appropriate visualizations
+    - chart library standardization
+    - report generation
+    - export CSV/PDF where useful
+    - metric definitions
+    - dashboard or report UI
+  recommended:
+    - scheduled report snapshots
+    - anomaly explanations
+metadata_required: [data-surface, capability-registry, technology-registry]
+rules:
+  - id: baseline.analytics.metric_definitions.required
+    rule_id: baseline.analytics.metric_definitions.required
+    title: Metric definitions are required
+    summary: Analytics surfaces must define metrics before presenting them.
+    source: {baseline: application/analytics, document: docs/application/analytics.md, section: Required Capabilities}
+    category: analytics
+    severity: required
+    maturity: {level: production}
+    applies_when: {application_types: [analytics, data], profiles: [analytics], technologies: [], repo_conditions: []}
+    check: {type: required_doc, expected: {keywords: [metric, definition]}}
+    evidence_required: [metric definitions]
+    acceptance_criteria: [Key metrics have definitions and source data.]
+    metadata_required: [data-surface]
+    quality_gates: [Metrics are not ambiguous.]
+    remediation: {hint: Add metric definitions and source evidence., suggested_issue_title: "docs: define analytics metrics", suggested_labels: [autospec:analytics]}
+    risk: {level: low, requires_human_review: false, requires_architecture_review: false}
+quality_gates:
+  - Charts match data shape and decision purpose.
+  - CSV/PDF exports include labels, dates, and provenance when useful.
+issue_templates:
+  - id: add-analytics-dashboard
+    title: Add analytics dashboard/report baseline
+    labels: [autospec:analytics]

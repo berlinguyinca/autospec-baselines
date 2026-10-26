@@ -1,0 +1,31 @@
+schema: 1
+profiles:
+  - id: web
+    summary: Browser application baseline.
+    packs:
+      - application/web
+      - technology/react
+      - technology/playwright
+  - id: ai-platform
+    summary: AI product and platform baseline.
+    packs:
+      - application/ai-platform
+      - ai/openai-compatible
+      - ai/ollama
+      - ai/rag
+      - ai/mcp
+  - id: analytics
+    summary: Analytics and reporting baseline.
+    packs:
+      - application/analytics
+      - technology/postgres
+  - id: scientific
+    summary: Scientific analysis baseline.
+    packs:
+      - application/scientific
+      - technology/python
+  - id: internal-tool
+    summary: Internal operational application baseline.
+    packs:
+      - application/internal-tool
+      - governance/enterprise

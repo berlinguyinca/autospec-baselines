@@ -1,0 +1,16 @@
+profile:
+  id: web-ai-analytics
+  summary: Browser app with AI assistant, RAG, and analytics/reporting.
+  application_type: web
+  maturity_target: production
+  packs:
+    - application/web
+    - application/ai-platform
+    - application/analytics
+    - technology/react
+    - technology/playwright
+    - technology/postgres
+    - ai/rag
+    - ai/openai-compatible
+    - ai/ollama
+    - ai/mcp

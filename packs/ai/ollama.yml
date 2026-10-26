@@ -1,0 +1,37 @@
+id: ai/ollama
+title: Ollama Baseline
+version: 0.1.0
+type: ai
+summary: Local model baseline for endpoint config, model selection, availability tests, fallback, and privacy explanation.
+applies_when: {application_types: [], technologies: [ollama], profiles: [ai-platform]}
+inherits: []
+requires: []
+conflicts_with: []
+capabilities:
+  required: [local endpoint configuration, model selection, availability test, fallback behavior, privacy explanation]
+  recommended: [model warmup diagnostics]
+metadata_required: [ai-capabilities, settings-registry]
+rules:
+  - id: baseline.ollama.availability_test.required
+    rule_id: baseline.ollama.availability_test.required
+    title: Ollama availability test is required
+    summary: Local model support needs a clear way to detect endpoint/model availability.
+    source: {baseline: ai/ollama, document: docs/ai/ollama.md, section: Testing Expectations}
+    category: ai
+    severity: required
+    maturity: {level: production}
+    applies_when: {application_types: [], profiles: [ai-platform], technologies: [ollama], repo_conditions: []}
+    check: {type: required_ai_capability, expected: {id: ollama-availability-test}}
+    evidence_required: [availability test command or diagnostic]
+    acceptance_criteria: [Operators can verify local model availability.]
+    metadata_required: [ai-capabilities]
+    quality_gates: [Fallback behavior is documented.]
+    remediation: {hint: Add local model availability diagnostic and fallback docs., suggested_issue_title: "test: add Ollama availability diagnostic", suggested_labels: [autospec:ai]}
+    risk: {level: low, requires_human_review: false, requires_architecture_review: false}
+quality_gates:
+  - Local endpoint settings do not expose secrets.
+  - Privacy posture for local inference is documented.
+issue_templates:
+  - id: add-ollama-diagnostic
+    title: Add Ollama availability diagnostic
+    labels: [autospec:ai]
